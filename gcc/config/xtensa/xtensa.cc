@@ -52,6 +52,7 @@ along with GCC; see the file COPYING3.  If not see
 #include "langhooks.h"
 #include "gimplify.h"
 #include "builtins.h"
+#include "opts.h"
 #include "dumpfile.h"
 #include "hw-doloop.h"
 #include "rtl-iter.h"
@@ -2837,6 +2838,50 @@ xtensa_return_in_msb (const_tree valtype)
 }
 
 
+/* Forcibly flagged as SHF_MERGE | SHF_STRINGS */
+static vec<const char*> xtensa_make_flash_string_section_prefixes ()
+{
+  vec<const char*> out;
+
+  out.reserve(2);
+  out.safe_push (".irom.exceptionstring");
+  out.safe_push (".irom0.pstr");
+
+  return out;
+}
+
+static bool xtensa_initialized_flash_string_section_prefixes = false;
+static vec<const char*> xtensa_flash_string_section_prefixes =
+  xtensa_make_flash_string_section_prefixes();
+
+static void
+xtensa_init_flash_string_section_prefixes ()
+{
+  xtensa_initialized_flash_string_section_prefixes = true;
+
+  unsigned int i;
+  cl_deferred_option *opt;
+  vec<cl_deferred_option> *v
+    = (vec<cl_deferred_option> *) xtensa_opt_flash_string_section_prefixes;
+
+  if (!v)
+    return;
+
+  FOR_EACH_VEC_ELT (*v, i, opt)
+  {
+    switch (opt->opt_index)
+    {
+      case OPT_mflash_string_section_prefix_:
+	xtensa_flash_string_section_prefixes.safe_push ( xstrdup (opt->arg));
+	break;
+
+      default:
+	gcc_unreachable ();
+    }
+  }
+}
+
+
 static void
 xtensa_option_override (void)
 {
@@ -2890,6 +2935,10 @@ xtensa_option_override (void)
 	  xtensa_hard_regno_mode_ok_p[(int) mode][regno] = temp;
 	}
     }
+
+  /* Initialize default & user provided flash string section prefixes */
+  if (!xtensa_initialized_flash_string_section_prefixes)
+    xtensa_init_flash_string_section_prefixes ();
 
   init_machine_status = xtensa_init_machine_status;
 
@@ -4349,6 +4398,13 @@ xtensa_multibss_section_type_flags (tree decl, const char *name, int reloc)
 	warning (0, "only uninitialized variables can be placed in a "
 		 "%<.bss%> section");
     }
+
+  for (const char *prefix : xtensa_flash_string_section_prefixes)
+  if (startswith (name, prefix))
+  {
+    flags &= ~(SECTION_NOTYPE);
+    flags |= SECTION_MERGE | SECTION_STRINGS | (SECTION_ENTSIZE & 1);
+  }
 
   return flags;
 }
