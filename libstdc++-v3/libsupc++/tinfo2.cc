@@ -40,7 +40,7 @@ type_info::before (const type_info &arg) const _GLIBCXX_NOEXCEPT
      take care to look at __name rather than name() when looking for
      the "pointer" prefix.  */
   return (__name[0] == '*') ? name () < arg.name ()
-    :  __builtin_strcmp (name (), arg.name ()) < 0;
+    :  __mforcel32_strcmp (name (), arg.name ()) < 0;
 #endif
 }
 
