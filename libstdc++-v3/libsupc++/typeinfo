@@ -163,6 +163,25 @@ namespace std
 #if ! __GXX_TYPEINFO_EQUALITY_INLINE
     bool __equal(const type_info&) const _GLIBCXX_NOEXCEPT;
 #endif
+
+    /* Write our own version so this does not get replaced with `strcmp` call
+       When building with -mforce-l32, pointer reads will be forcibly aligned */
+    static _GLIBCXX23_CONSTEXPR
+    int __attribute__((__target__("force-l32"))) __mforcel32_strcmp (const char *p1, const char *p2) _GLIBCXX_NOEXCEPT
+    {
+        const unsigned char *s1 = (const unsigned char *) p1;
+        const unsigned char *s2 = (const unsigned char *) p2;
+        unsigned char c1, c2;
+        do
+        {
+            c1 = (unsigned char) *s1++;
+            c2 = (unsigned char) *s2++;
+            if (c1 == '\0')
+                return c1 - c2;
+        }
+        while (c1 == c2);
+        return c1 - c2;
+    }
   };
 
 #if __GXX_TYPEINFO_EQUALITY_INLINE
@@ -174,7 +193,7 @@ namespace std
     // we can run into cases where type_info names aren't merged,
     // so we still need to do string comparison.
     if (__name[0] != '*' || __arg.__name[0] != '*')
-      return __builtin_strcmp (__name, __arg.__name) < 0;
+      return __mforcel32_strcmp (__name, __arg.__name) < 0;
 #else
     // On some targets we can rely on type_info's NTBS being unique,
     // and therefore address comparisons are sufficient.
@@ -202,7 +221,7 @@ namespace std
     return __equal(__arg);
 #elif !__GXX_MERGED_TYPEINFO_NAMES
     // Need to do string comparison.
-    return __name[0] != '*' && __builtin_strcmp (__name, __arg.name()) == 0;
+    return __name[0] != '*' && __mforcel32_strcmp (__name, __arg.name()) == 0;
 #else
     return false;
 #endif

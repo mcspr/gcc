@@ -409,6 +409,25 @@ _Unwind_GetTextRelBase (struct _Unwind_Context *context)
 
 #include "md-unwind-support.h"
 
+
+/* Write our own version so this does not get replaced with `strlen` call
+   When building with -mforce-l32, pointer reads will be forcibly aligned */
+static size_t __mforcel32_strlen (const char *p)
+{
+  const unsigned char *s = (const unsigned char *) p;
+  size_t len = 0;
+
+  unsigned char c = *s;
+  while (c)
+    {
+      ++len;
+      ++s;
+      c = *s;
+    }
+
+  return len;
+}
+
 /* Extract any interesting information from the CIE for the translation
    unit F belongs to.  Return a pointer to the byte after the augmentation,
    or NULL if we encountered an undecipherable augmentation.  */
@@ -418,7 +437,7 @@ extract_cie_info (const struct dwarf_cie *cie, struct _Unwind_Context *context,
 		  _Unwind_FrameState *fs)
 {
   const unsigned char *aug = cie->augmentation;
-  const unsigned char *p = aug + strlen ((const char *)aug) + 1;
+  const unsigned char *p = aug + __mforcel32_strlen ((const char *)aug) + 1;
   const unsigned char *ret = NULL;
   _uleb128_t utmp;
   _sleb128_t stmp;

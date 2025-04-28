@@ -47,7 +47,7 @@ operator== (const std::type_info& arg) const _GLIBCXX_NOEXCEPT
      take care to look at __name rather than name() when looking for
      the "pointer" prefix.  */
   return (&arg == this)
-    || (__name[0] != '*' && (__builtin_strcmp (name (), arg.name ()) == 0));
+    || (__name[0] != '*' && (__mforcel32_strcmp (name (), arg.name ()) == 0));
 #endif
 }
 

@@ -337,6 +337,24 @@ base_from_object (unsigned char encoding, const struct object *ob)
     }
 }
 
+/* Write our own version so this does not get replaced with `strlen` call
+   When building with -mforce-l32, pointer reads will be forcibly aligned */
+static size_t __mforcel32_strlen (const char *p)
+{
+  const unsigned char *s = (const unsigned char *) p;
+  size_t len = 0;
+
+  unsigned char c = *s;
+  while (c)
+    {
+      ++len;
+      ++s;
+      c = *s;
+    }
+
+  return len;
+}
+
 /* Return the FDE pointer encoding from the CIE.  */
 /* ??? This is a subset of extract_cie_info from unwind-dw2.c.  */
 
@@ -349,7 +367,7 @@ get_cie_encoding (const struct dwarf_cie *cie)
   _sleb128_t stmp;
 
   aug = cie->augmentation;
-  p = aug + strlen ((const char *)aug) + 1; /* Skip the augmentation string.  */
+  p = aug + __mforcel32_strlen ((const char *)aug) + 1; /* Skip the augmentation string.  */
   if (__builtin_expect (cie->version >= 4, 0))
     {
       if (p[0] != sizeof (void *) || p[1] != 0)
