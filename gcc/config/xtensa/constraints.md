@@ -139,3 +139,13 @@
  "Memory that is not in a literal pool."
  (and (match_code "mem")
       (match_test "! constantpool_mem_p (op)")))
+
+(define_memory_constraint "ZY"
+ "Memory that is not in a literal pool w/o forced L32"
+ (and (match_code "mem")
+      (match_test "!TARGET_FORCE_L32 && !constantpool_mem_p (op)")))
+
+(define_memory_constraint "ZZ"
+ "Memory that is not in a literal pool w/ forced L32"
+ (and (match_code "mem")
+      (match_test "TARGET_FORCE_L32 && !constantpool_mem_p (op)")))
