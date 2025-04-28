@@ -84,4 +84,6 @@ extern enum reg_class xtensa_regno_to_class (int regno);
 extern HOST_WIDE_INT xtensa_initial_elimination_offset (int from, int to);
 extern const char **xtensa_get_config_strings (void);
 
+void xtensa_register_pragmas (void);
+
 #endif /* !__XTENSA_PROTOS_H__ */

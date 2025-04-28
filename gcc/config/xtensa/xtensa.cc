@@ -52,6 +52,7 @@ along with GCC; see the file COPYING3.  If not see
 #include "langhooks.h"
 #include "gimplify.h"
 #include "builtins.h"
+#include "opts.h"
 #include "dumpfile.h"
 #include "hw-doloop.h"
 #include "rtl-iter.h"
@@ -193,6 +194,11 @@ static void xtensa_output_mi_thunk (FILE *file, tree thunk ATTRIBUTE_UNUSED,
 				    tree function);
 
 static rtx xtensa_delegitimize_address (rtx);
+
+static bool xtensa_option_valid_attribute_p (tree, tree, tree, int);
+static void xtensa_option_restore (struct gcc_options *,struct gcc_options *, struct cl_target_option *);
+static void xtensa_option_save (struct cl_target_option *, struct gcc_options *, struct gcc_options *);
+static void xtensa_set_current_function (tree);
 
 
 
@@ -355,6 +361,19 @@ static rtx xtensa_delegitimize_address (rtx);
 
 #undef TARGET_MAX_ANCHOR_OFFSET
 #define TARGET_MAX_ANCHOR_OFFSET 1020
+
+#undef TARGET_OPTION_RESTORE
+#define TARGET_OPTION_RESTORE xtensa_option_restore
+
+#undef TARGET_OPTION_SAVE
+#define TARGET_OPTION_SAVE xtensa_option_save
+
+#undef TARGET_OPTION_VALID_ATTRIBUTE_P
+#define TARGET_OPTION_VALID_ATTRIBUTE_P xtensa_option_valid_attribute_p
+
+#undef TARGET_SET_CURRENT_FUNCTION
+#define TARGET_SET_CURRENT_FUNCTION xtensa_set_current_function
+
 
 struct gcc_target targetm = TARGET_INITIALIZER;
 
@@ -2320,6 +2339,176 @@ xtensa_emit_sibcall (int callop, rtx *operands)
   return result;
 }
 
+
+static bool
+xtensa_process_target_attr (tree args)
+{
+  struct Handler {
+    const char* name;
+    int mask;
+    bool append;
+  };
+
+  /* Received target opt usually handles target_flags modifications */
+  static constexpr Handler handlers[] {
+    {"force-l32",   MASK_FORCE_L32, true},
+    {"noforce-l32", MASK_FORCE_L32, false},
+  };
+
+  bool ret = false;
+
+  if (TREE_VALUE (args)
+    && TREE_CODE (TREE_VALUE (args)) == STRING_CST
+    && TREE_CHAIN (args) == NULL_TREE)
+  {
+    for (const auto& handler : handlers)
+    if (strcmp (TREE_STRING_POINTER (TREE_VALUE (args)), handler.name) == 0)
+    {
+      int replacement_target_flags = global_options.x_target_flags;
+      if (handler.append)
+	replacement_target_flags |= handler.mask;
+      else
+	replacement_target_flags &= ~handler.mask;
+
+      global_options.x_target_flags = replacement_target_flags;
+      ret = true;
+
+      break;
+    }
+  }
+
+  return ret;
+}
+
+/* Implement TARGET_OPTION_VALID_ATTRIBUTE_P.  This is used to
+   process attribute ((target ("...")))
+
+   Only one override is supported right now — per-function -m{no,}force-l32 */
+
+static bool
+xtensa_option_valid_attribute_p (tree fndecl, tree ARG_UNUSED (name),
+			      tree args, int ARG_UNUSED (flags))
+{
+  tree new_target;
+  tree new_optimize;
+
+  tree existing_target = DECL_FUNCTION_SPECIFIC_TARGET (fndecl);
+
+  /* To avoid re-parsing, use the node target set up by pragma */
+  if (!existing_target && args == current_target_pragma)
+  {
+    DECL_FUNCTION_SPECIFIC_TARGET (fndecl) = target_option_current_node;
+    return true;
+  }
+
+  tree old_optimize = build_optimization_node (&global_options, &global_options_set);
+  tree func_optimize = DECL_FUNCTION_SPECIFIC_OPTIMIZATION (fndecl);
+
+  if (func_optimize && func_optimize != old_optimize)
+    cl_optimization_restore (&global_options, &global_options_set,
+			     TREE_OPTIMIZATION (func_optimize));
+
+  /* Save the current target options to restore at the end.  */
+  struct cl_target_option cur_target;
+  cl_target_option_save (&cur_target, &global_options, &global_options_set);
+
+  /* Existing attribute opts should also be restored */
+  if (existing_target)
+  {
+    struct cl_target_option *existing_options = TREE_TARGET_OPTION (existing_target);
+    if (existing_options)
+      cl_target_option_restore (&global_options, &global_options_set, existing_options);
+  }
+  else
+  cl_target_option_restore (&global_options, &global_options_set,
+			    TREE_TARGET_OPTION (target_option_current_node));
+
+  /* Note that .opt file **MUST** contain at least one Save'able mask opt
+     Otherwise, our changes below won't be noticed and default node would
+     always be returned by `build_target_option_node` instead of the modified one. */
+  bool ret = xtensa_process_target_attr (args);
+  if (ret)
+    new_target = build_target_option_node (&global_options, &global_options_set);
+  else
+    new_target = NULL_TREE;
+
+  new_optimize = build_optimization_node (&global_options, &global_options_set);
+  if (fndecl && ret)
+  {
+    DECL_FUNCTION_SPECIFIC_TARGET (fndecl) = new_target;
+    if (old_optimize != new_optimize)
+      DECL_FUNCTION_SPECIFIC_OPTIMIZATION (fndecl) = new_optimize;
+  }
+
+  cl_target_option_restore (&global_options, &global_options_set, &cur_target);
+
+  if (old_optimize != new_optimize)
+    cl_optimization_restore (&global_options, &global_options_set,
+			     TREE_OPTIMIZATION (old_optimize));
+
+  return ret;
+}
+
+
+static void
+xtensa_option_save (struct cl_target_option *ptr,
+		      struct gcc_options *opts,
+		      struct gcc_options * /* opts_set */)
+{
+  ptr->x_target_flags = opts->x_target_flags;
+}
+
+
+static void
+xtensa_option_restore (struct gcc_options *opts,
+		      struct gcc_options * /* opts_set */,
+		      struct cl_target_option *ptr)
+{
+  opts->x_target_flags = ptr->x_target_flags;
+}
+
+
+static GTY(()) tree xtensa_previous_fndecl;
+
+void
+xtensa_reset_previous_fndecl (void)
+{
+  xtensa_previous_fndecl = NULL;
+}
+
+
+static void
+xtensa_set_current_function (tree fndecl)
+{
+  if (!fndecl || fndecl == xtensa_previous_fndecl)
+    return;
+
+  auto old_tree = xtensa_previous_fndecl
+    ? DECL_FUNCTION_SPECIFIC_TARGET (xtensa_previous_fndecl)
+    : NULL_TREE;
+  auto new_tree = DECL_FUNCTION_SPECIFIC_TARGET (fndecl);
+
+  if (!new_tree && old_tree)
+    new_tree = target_option_default_node;
+
+  if (old_tree == new_tree)
+    return;
+
+  xtensa_previous_fndecl = fndecl;
+
+  int f = global_options.x_target_flags;
+  if (new_tree && old_tree != new_tree)
+  {
+    xtensa_previous_fndecl = NULL_TREE;
+    cl_target_option_restore (&global_options, &global_options_set,
+			      TREE_TARGET_OPTION (new_tree));
+  }
+
+  if (fndecl)
+    xtensa_previous_fndecl = fndecl;
+}
+
+
 bool
 xtensa_legitimate_address_p (machine_mode mode, rtx addr, bool strict,
 			     code_helper)
@@ -2921,6 +3110,14 @@ xtensa_option_override (void)
       flag_reorder_blocks_and_partition = 0;
       flag_reorder_blocks = 1;
     }
+
+  /* Save these options as the default ones in case we push and pop them later
+     while processing functions with potential target attributes.  */
+  target_option_default_node
+    = build_target_option_node (&global_options, &global_options_set);
+  target_option_current_node = target_option_default_node;
+
+  xtensa_previous_fndecl = NULL_TREE;
 }
 
 /* Implement TARGET_HARD_REGNO_NREGS.  */
@@ -5416,6 +5613,37 @@ xtensa_delegitimize_address (rtx op)
       break;
     }
   return op;
+}
+
+static bool
+xtensa_pragma_target_parse (tree args, tree pop_target)
+{
+  /* If args is not NULL then process it and setup the target-specific
+     information that it specifies.  */
+  if (args)
+    return xtensa_process_target_attr (args);
+
+    /* args is NULL, restore to the state described in pop_target.  */
+  else
+  {
+    pop_target = pop_target ? pop_target : target_option_default_node;
+    cl_target_option_restore (&global_options, &global_options_set,
+			      TREE_TARGET_OPTION (pop_target));
+  }
+
+  target_option_current_node
+    = build_target_option_node (&global_options, &global_options_set);
+
+  /* Reset fndecl for any previously declared target attribute */
+  xtensa_reset_previous_fndecl ();
+
+  return true;
+}
+
+void
+xtensa_register_pragmas (void)
+{
+  targetm.target_option.pragma_parse = xtensa_pragma_target_parse;
 }
 
 #include "gt-xtensa.h"

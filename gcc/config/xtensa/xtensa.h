@@ -21,6 +21,9 @@ along with GCC; see the file COPYING3.  If not see
 /* Get Xtensa configuration settings */
 #include "xtensa-dynconfig.h"
 
+/* #pragma target support */
+#define REGISTER_TARGET_PRAGMAS() xtensa_register_pragmas ()
+
 /* External variables defined in xtensa.cc.  */
 
 /* Macros used in the machine description to select various Xtensa
