@@ -52,6 +52,7 @@ along with GCC; see the file COPYING3.  If not see
 #include "langhooks.h"
 #include "gimplify.h"
 #include "builtins.h"
+#include "opts.h"
 #include "dumpfile.h"
 #include "hw-doloop.h"
 #include "rtl-iter.h"
@@ -2844,6 +2845,55 @@ xtensa_return_in_msb (const_tree valtype)
 }
 
 
+/* Forcibly flagged as SHF_MERGE | SHF_STRINGS */
+static vec<const char*, va_heap> *xtensa_flash_string_section_prefixes = nullptr;
+
+static void
+xtensa_init_flash_string_section_prefixes ()
+{
+  xtensa_flash_string_section_prefixes = new vec<const char*, va_heap>(vNULL);
+  xtensa_flash_string_section_prefixes->safe_push (
+		 static_cast<const char *>(".irom.exceptionstring"));
+  xtensa_flash_string_section_prefixes->safe_push (
+		 static_cast<const char *>(".irom0.pstr"));
+
+  unsigned int i;
+  cl_deferred_option *opt;
+  vec<cl_deferred_option> *v
+    = (vec<cl_deferred_option> *) xtensa_opt_flash_string_section_prefixes;
+
+  if (!v)
+    return;
+
+  FOR_EACH_VEC_ELT (*v, i, opt)
+  {
+    switch (opt->opt_index)
+    {
+      case OPT_mflash_string_section_prefix_:
+	xtensa_flash_string_section_prefixes->safe_push (
+		static_cast<const char *>(xstrdup (opt->arg)));
+	break;
+
+      default:
+	gcc_unreachable ();
+    }
+  }
+}
+
+
+static bool
+xtensa_has_flash_string_section_prefix (const char *name)
+{
+  for (const char *prefix : *xtensa_flash_string_section_prefixes)
+    {
+      if (startswith (name, prefix))
+	return true;
+    }
+
+  return false;
+}
+
+
 static void
 xtensa_option_override (void)
 {
@@ -2897,6 +2947,10 @@ xtensa_option_override (void)
 	  xtensa_hard_regno_mode_ok_p[(int) mode][regno] = temp;
 	}
     }
+
+  /* Initialize default & user provided flash string section prefixes */
+  if (!xtensa_flash_string_section_prefixes)
+    xtensa_init_flash_string_section_prefixes ();
 
   init_machine_status = xtensa_init_machine_status;
 
@@ -4406,6 +4460,12 @@ xtensa_multibss_section_type_flags (tree decl, const char *name, int reloc)
 	warning (0, "only uninitialized variables can be placed in a "
 		 "%<.bss%> section");
     }
+
+  if (xtensa_has_flash_string_section_prefix (name)
+  {
+    flags &= ~(SECTION_NOTYPE);
+    flags |= SECTION_MERGE | SECTION_STRINGS | (SECTION_ENTSIZE & 1);
+  }
 
   return flags;
 }

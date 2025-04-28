@@ -75,3 +75,7 @@ Use windowed registers ABI.
 mstrict-align
 Target Var(xtensa_strict_alignment) Init(XTENSA_STRICT_ALIGNMENT_UNDEFINED)
 Do not use unaligned memory references.
+
+mflash-string-section-prefix=
+Target RejectNegative Joined Defer Var(xtensa_opt_flash_string_section_prefixes)
+-mflash-string-section-prefix=<section> One or more section prefixes, forcibly flagged as SHF_MERGE | SHF_STRINGS. Includes .irom.exceptionstring and .irom0.pstr by default.
