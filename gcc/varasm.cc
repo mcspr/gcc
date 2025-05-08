@@ -875,8 +875,31 @@ mergeable_string_section (tree decl ATTRIBUTE_UNUSED,
       const char *str;
       HOST_WIDE_INT i;
       int j, unit;
+
       const char *prefix = function_mergeable_rodata_prefix ();
-      char *name = (char *) alloca (strlen (prefix) + 30);
+
+      /* special case when string cst is artificial and
+	 was manually chained with an identifier node */
+      char identifier[23] = ".";
+
+      tree tail = TREE_CHAIN (TREE_TYPE (decl));
+      if (tail && TREE_CODE (tail) == IDENTIFIER_NODE)
+	{
+	  const char *dot = strchr (prefix + 1, '.');
+	  const char *fmt = dot ? "%s." : ".%s.";
+
+	  constexpr size_t remaining = sizeof (identifier) - 3;
+	  const char *ptr = IDENTIFIER_POINTER (tail);
+
+	  if (IDENTIFIER_LENGTH (tail) <= remaining)
+	    sprintf (identifier, fmt, ptr, remaining);
+	  else
+	    warning (0, "ignored section identifier %qs", ptr);
+
+	  TREE_CHAIN (TREE_TYPE (decl)) = NULL_TREE;
+      }
+
+      char *name = (char *) alloca (strlen (prefix) + strlen(identifier) + 30);
 
       mode = SCALAR_INT_TYPE_MODE (TREE_TYPE (TREE_TYPE (decl)));
       modesize = GET_MODE_BITSIZE (mode);
@@ -903,7 +926,7 @@ mergeable_string_section (tree decl ATTRIBUTE_UNUSED,
 	    }
 	  if (i == len - unit || (unit == 1 && i == len))
 	    {
-	      sprintf (name, "%s.str%d.%d", prefix,
+	      sprintf (name, "%s%sstr%d.%d", prefix, identifier,
 		       modesize / 8, (int) (align / 8));
 	      flags |= (modesize / 8) | SECTION_MERGE | SECTION_STRINGS;
 	      return get_section (name, flags, NULL);

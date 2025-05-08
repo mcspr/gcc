@@ -5265,6 +5265,10 @@ cp_make_fname_decl (location_t loc, tree id, int type_dep)
   tree type = cp_build_qualified_type (char_type_node, TYPE_QUAL_CONST);
   type = build_cplus_array_type (type, domain);
 
+/* smuggle identifier w/ the type of the string cst, allowing varasm section selector to use it */
+  type = copy_node (type);
+  TREE_CHAIN (type) = id;
+
   if (init)
     TREE_TYPE (init) = type;
   else

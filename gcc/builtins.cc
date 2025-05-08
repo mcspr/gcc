@@ -10389,6 +10389,20 @@ fold_builtin_addc_subc (location_t loc, enum built_in_function fcode,
   return build2_loc (loc, COMPOUND_EXPR, type, store, intres);
 }
 
+/* smuggle identifier w/ the type of the string cst, allowing varasm section selector to use it */
+static void
+builtin_string_literal_type_chain (tree literal, const char *identifier)
+{
+  /* ref. tree.cc - build_string_literal
+     > build1 (ADDR_EXPR, type, build4 (ARRAY_REF, eltype, >>build_string()<< ... */
+  tree type = TREE_TYPE (TREE_OPERAND (TREE_OPERAND (literal, 0), 0));
+
+  type = copy_node (type);
+  TREE_CHAIN (type) = get_identifier (identifier);
+
+  TREE_TYPE (TREE_OPERAND (TREE_OPERAND (literal, 0), 0)) = type;
+}
+
 /* Fold a call to __builtin_FILE to a constant string.  */
 
 static inline tree
@@ -10400,7 +10414,11 @@ fold_builtin_FILE (location_t loc)
 	 __FILE__ macro so it appears appropriate to use the same file prefix
 	 mappings.  */
       fname = remap_macro_filename (fname);
-      return build_string_literal (fname);
+
+      tree literal = build_string_literal (fname);
+      builtin_string_literal_type_chain (literal, "__builtin_FILE");
+
+      return literal;
     }
 
   return build_string_literal ("");
@@ -10416,7 +10434,10 @@ fold_builtin_FUNCTION ()
   if (current_function_decl)
     name = lang_hooks.decl_printable_name (current_function_decl, 0);
 
-  return build_string_literal (name);
+  tree literal = build_string_literal (name);
+  builtin_string_literal_type_chain (literal, "__builtin_FUNCTION");
+
+  return literal;
 }
 
 /* Fold a call to __builtin_LINE to an integer constant.  */
