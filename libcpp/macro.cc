@@ -557,8 +557,7 @@ _cpp_builtin_macro_text (cpp_reader *pfile, cpp_hashnode *node,
 	  {
 	    name = linemap_get_expansion_filename (pfile->line_table,
 						   pfile->line_table->highest_line);
-	    if ((node->value.builtin == BT_FILE_NAME) && name)
-	      name = lbasename (name);
+	    name = lbasename (name);
 	  }
 	else
 	  {
