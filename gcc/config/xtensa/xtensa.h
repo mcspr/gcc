@@ -780,3 +780,8 @@ typedef struct xtensa_args
 	callx0\ta0\n" \
 	TEXT_SECTION_ASM_OP);
 #endif
+
+
+/* Use int, instead of long int, for int32_t and uint32_t.  */
+#undef STDINT_LONG32
+#define STDINT_LONG32 0
