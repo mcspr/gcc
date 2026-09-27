@@ -22,6 +22,12 @@
 
 include $(top_srcdir)/fragment.am
 
+# __eqt headers
+eqt_srcdir = ${glibcxx_srcdir}/include/__eqt
+eqt_builddir = ./__eqt
+eqt_headers = \
+	${eqt_srcdir}/excstring.hpp
+
 # Standard C++ includes.
 std_srcdir = ${glibcxx_srcdir}/include/std
 std_builddir = .
@@ -1115,7 +1121,7 @@ endif
 # List of all timestamp files.  By keeping only one copy of this list, both
 # CLEANFILES and all-local are kept up-to-date.
 allstamped = \
-	stamp-std stamp-bits stamp-bits-sup stamp-pstl stamp-c_base stamp-c_compatibility \
+	stamp-eqt stamp-std stamp-bits stamp-bits-sup stamp-pstl stamp-c_base stamp-c_compatibility \
 	stamp-backward stamp-ext stamp-pb stamp-tr1 stamp-tr2 stamp-decimal \
 	stamp-experimental stamp-experimental-bits stamp-debug stamp-parallel \
 	stamp-host
@@ -1131,6 +1137,11 @@ allcreated = \
 
 # Here are the rules for building the headers
 all-local: ${allstamped} ${allcreated}
+
+stamp-eqt: ${eqt_headers}
+	@-mkdir -p ${eqt_builddir}
+	@-cd ${eqt_builddir} && $(LN_S) $? . 2>/dev/null
+	@$(STAMP) stamp-eqt
 
 # Ignore errors from 'mkdir -p' to avoid parallel make failure on
 # systems with broken mkdir.  Call mkdir unconditionally because
@@ -1499,6 +1510,9 @@ install-headers:
 	$(mkinstalldirs) $(DESTDIR)${gxx_include_dir}/${backward_builddir}
 	for file in ${backward_headers}; do \
 	  $(INSTALL_DATA) $${file} $(DESTDIR)${gxx_include_dir}/${backward_builddir}; done
+	$(mkinstalldirs) $(DESTDIR)${gxx_include_dir}/${eqt_builddir}
+	for file in ${eqt_headers}; do \
+	  $(INSTALL_DATA) $${file} $(DESTDIR)${gxx_include_dir}/${eqt_builddir}; done
 	$(mkinstalldirs) $(DESTDIR)${gxx_include_dir}/${std_builddir}
 	for file in ${std_headers}; do \
 	  $(INSTALL_DATA) $${file} $(DESTDIR)${gxx_include_dir}/${std_builddir}; done
@@ -1591,9 +1605,10 @@ clean-local:
 # developer tries to create them via make in the include build
 # directory. (This is more of an example of how this kind of rule can
 # be made.)
-.PRECIOUS: $(std_headers) $(c_base_headers) $(tr1_headers) $(tr2_headers)
+.PRECIOUS: $(eqt_headers) $(std_headers) $(c_base_headers) $(tr1_headers) $(tr2_headers)
 	   $(decimal_headers) $(ext_headers) $(experimental_headers)
 	   $(experimental_bits_headers)
+$(eqt_headers): ; @:
 $(std_headers): ; @:
 $(c_base_headers): ; @:
 $(tr1_headers): ; @:
