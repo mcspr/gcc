@@ -45,6 +45,14 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations" // aligned_storage
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_std_any0, "bad any_cast");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -61,7 +69,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   class bad_any_cast : public bad_cast
   {
   public:
-    virtual const char* what() const noexcept { return "bad any_cast"; }
+    virtual const char* what() const noexcept { return __eqt_excstr_exc_what_std_any0; }
   };
 
   [[gnu::noreturn]] inline void __throw_bad_any_cast()

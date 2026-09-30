@@ -68,6 +68,20 @@
 # include <ws2tcpip.h>
 #endif
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_experimental_internet0, "bad address cast");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_internet0, "invalid address_v4::bytes_type value");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_internet1, "invalid address_v4::uint_type value");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_internet2, "network_v4: invalid prefix length");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_internet3, "network_v4: invalid mask");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_internet4, "network_v6: invalid prefix length");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_internet5, "net::ip::basic_endpoint::resize");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -186,7 +200,7 @@ namespace ip
 #if UCHAR_MAX > 0xFF
 	  for (auto __b : *this)
 	    if (__b > 0xFF)
-	      __throw_out_of_range("invalid address_v4::bytes_type value");
+	      __throw_out_of_range(__eqt_excstr_throwing_experimental_internet0);
 #endif
 	}
     };
@@ -211,7 +225,7 @@ namespace ip
     {
 #if UINT_LEAST32_MAX > 0xFFFFFFFF
       if (__val > 0xFFFFFFFF)
-	__throw_out_of_range("invalid address_v4::uint_type value");
+	__throw_out_of_range(__eqt_excstr_throwing_experimental_internet1);
 #endif
     }
 
@@ -474,7 +488,7 @@ namespace ip
   public:
     bad_address_cast() { }
 
-    const char* what() const noexcept { return "bad address cast"; }
+    const char* what() const noexcept { return __eqt_excstr_exc_what_experimental_internet0; }
   };
 
   /// An IPv4 or IPv6 address.
@@ -1239,7 +1253,7 @@ namespace ip
     : _M_addr(__addr), _M_prefix_len(__prefix_len)
     {
       if (_M_prefix_len < 0 || _M_prefix_len > 32)
-	__throw_out_of_range("network_v4: invalid prefix length");
+	__throw_out_of_range(__eqt_excstr_throwing_experimental_internet2);
     }
 
     constexpr
@@ -1250,9 +1264,9 @@ namespace ip
 	{
 	  address_v4::uint_type __mask_uint = __mask.to_uint();
 	  if (__builtin_ctz(__mask_uint) != (32 - _M_prefix_len))
-	    __throw_invalid_argument("network_v4: invalid mask");
+	    __throw_invalid_argument(__eqt_excstr_throwing_experimental_internet3);
 	  if ((__mask_uint & 0x80000000) == 0)
-	    __throw_invalid_argument("network_v4: invalid mask");
+	    __throw_invalid_argument(__eqt_excstr_throwing_experimental_internet3);
 	}
     }
 
@@ -1340,7 +1354,7 @@ namespace ip
     : _M_addr(__addr), _M_prefix_len(__prefix_len)
     {
       if (_M_prefix_len < 0 || _M_prefix_len > 128)
-	__throw_out_of_range("network_v6: invalid prefix length");
+	__throw_out_of_range(__eqt_excstr_throwing_experimental_internet4);
     }
 
     // members:
@@ -1666,7 +1680,7 @@ namespace ip
       resize(size_t __s)
       {
 	if (__s != size())
-	  __throw_length_error("net::ip::basic_endpoint::resize");
+	  __throw_length_error(__eqt_excstr_throwing_experimental_internet5);
       }
 
       constexpr size_t capacity() const noexcept { return sizeof(_M_data); }

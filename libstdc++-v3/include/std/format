@@ -63,6 +63,25 @@
 # include <cctype>
 #endif
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format0, "format error: unmatched '{' in format string");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format1, "format error: unmatched '}' in format string");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format2, "format error: conflicting indexing style in format string");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format3, "format error: invalid arg-id in format string");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format4, "format error: failed to parse format-spec");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format5, "format error: invalid width or precision in format-spec");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format6, "format error: width must be non-zero in format string");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format7, "format error: missing precision after '.' in format string");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format8, "format error: format-spec contains invalid formatting options for 'bool'");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format9, "format error: format-spec contains invalid formatting options for 'charT'");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format10, "format error: integer not representable as character");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_format11, "format error: argument used for width or precision must be a non-negative integer");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -201,27 +220,27 @@ namespace __format
   [[noreturn]]
   inline void
   __unmatched_left_brace_in_format_string()
-  { __throw_format_error("format error: unmatched '{' in format string"); }
+  { __throw_format_error(__eqt_excstr_throwing_std_format0); }
 
   [[noreturn]]
   inline void
   __unmatched_right_brace_in_format_string()
-  { __throw_format_error("format error: unmatched '}' in format string"); }
+  { __throw_format_error(__eqt_excstr_throwing_std_format1); }
 
   [[noreturn]]
   inline void
   __conflicting_indexing_in_format_string()
-  { __throw_format_error("format error: conflicting indexing style in format string"); }
+  { __throw_format_error(__eqt_excstr_throwing_std_format2); }
 
   [[noreturn]]
   inline void
   __invalid_arg_id_in_format_string()
-  { __throw_format_error("format error: invalid arg-id in format string"); }
+  { __throw_format_error(__eqt_excstr_throwing_std_format3); }
 
   [[noreturn]]
   inline void
   __failed_to_parse_format_spec()
-  { __throw_format_error("format error: failed to parse format-spec"); }
+  { __throw_format_error(__eqt_excstr_throwing_std_format4); }
 } // namespace __format
   /// @endcond
 
@@ -527,8 +546,7 @@ namespace __format
 	  {
 	    auto [__v, __ptr] = __format::__parse_integer(__first, __last);
 	    if (!__ptr)
-	      __throw_format_error("format error: invalid width or precision "
-				   "in format-spec");
+	      __throw_format_error(__eqt_excstr_throwing_std_format5);
 	    __first = __ptr;
 	    __val = __v;
 	  }
@@ -561,8 +579,7 @@ namespace __format
       {
 	bool __arg_id = false;
 	if (*__first == '0')
-	  __throw_format_error("format error: width must be non-zero in "
-			       "format string");
+	  __throw_format_error(__eqt_excstr_throwing_std_format6);
 	auto __next = _S_parse_width_or_precision(__first, __last, _M_width,
 						  __arg_id, __pc);
 	if (__next != __first)
@@ -584,8 +601,7 @@ namespace __format
 	  __next = _S_parse_width_or_precision(__first, __last, _M_prec,
 					       __arg_id, __pc);
 	if (__next == __first)
-	  __throw_format_error("format error: missing precision after '.' in "
-			       "format string");
+	  __throw_format_error(__eqt_excstr_throwing_std_format7);
 	_M_prec_kind = __arg_id ? _WP_from_arg : _WP_value;
 	return __next;
       }
@@ -1063,9 +1079,7 @@ namespace __format
 	      auto __end = _M_do_parse(__pc, _AsBool);
 	      if (_M_spec._M_type == _Pres_s)
 		if (_M_spec._M_sign || _M_spec._M_alt || _M_spec._M_zero_fill)
-		  __throw_format_error("format error: format-spec contains "
-				       "invalid formatting options for "
-				       "'bool'");
+		  __throw_format_error(__eqt_excstr_throwing_std_format8);
 	      return __end;
 	    }
 	  else if constexpr (__char<_Tp>)
@@ -1074,9 +1088,7 @@ namespace __format
 	      if (_M_spec._M_type == _Pres_c || _M_spec._M_type == _Pres_esc)
 		if (_M_spec._M_sign || _M_spec._M_alt || _M_spec._M_zero_fill
 		      /* XXX should be invalid? || _M_spec._M_localized */)
-		  __throw_format_error("format error: format-spec contains "
-				       "invalid formatting options for "
-				       "'charT'");
+		  __throw_format_error(__eqt_excstr_throwing_std_format9);
 	      return __end;
 	    }
 	  else
@@ -1223,8 +1235,7 @@ namespace __format
 	    }
 	  else if (__i <= make_unsigned_t<_CharT>(_Traits::__max))
 	    return static_cast<_CharT>(__i);
-	  __throw_format_error("format error: integer not representable as "
-			       "character");
+	  __throw_format_error(__eqt_excstr_throwing_std_format10);
 	}
 
       template<typename _Out>
@@ -3602,8 +3613,7 @@ namespace __format
 	      if (__arg >= 0)
 		return __arg;
 	  }
-	__throw_format_error("format error: argument used for width or "
-			     "precision must be a non-negative integer");
+	__throw_format_error(__eqt_excstr_throwing_std_format11);
       }
   };
 

@@ -48,6 +48,14 @@
 #include <ext/memory> // For uninitialized_copy_n
 #include <ext/numeric> // For power
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_ropeimpl_h0, __N("rope::_S_balance"));
+
+} // namespace
+
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -1241,7 +1249,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	}
       
       if (__result->_M_depth > int(__detail::_S_max_rope_depth))
-	std::__throw_length_error(__N("rope::_S_balance"));
+	std::__throw_length_error(__eqt_excstr_throwing_ext_ropeimpl_h0);
       return(__result);
     }
 

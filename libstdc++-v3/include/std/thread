@@ -53,6 +53,14 @@
 # include <format>
 #endif
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_thread0, "format error: invalid format-spec for std::thread::id");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -330,8 +338,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	if (__finished())
 	  return __first;
 
-	__throw_format_error("format error: invalid format-spec for "
-			     "std::thread::id");
+	__throw_format_error(__eqt_excstr_throwing_std_thread0);
       }
 
       template<typename _Out>

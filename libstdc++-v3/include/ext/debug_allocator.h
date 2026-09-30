@@ -48,6 +48,15 @@
 #include <bits/functexcept.h>
 #include <ext/alloc_traits.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_debug_allocator_h0, "debug_allocator::deallocate wrong size");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_debug_allocator_h1, "debug_allocator::deallocate null pointer");
+
+} // namespace
+
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -145,11 +154,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  {
 	    pointer __real_p = __p - _M_extra;
 	    if (*reinterpret_cast<size_type*>(__real_p) != __n)
-	      __throw_runtime_error("debug_allocator::deallocate wrong size");
+	      __throw_runtime_error(__eqt_excstr_throwing_ext_debug_allocator_h0);
 	    _M_allocator.deallocate(__real_p, __n + _M_extra);
 	  }
 	else
-	  __throw_runtime_error("debug_allocator::deallocate null pointer");
+	  __throw_runtime_error(__eqt_excstr_throwing_ext_debug_allocator_h1);
       }
 
       void

@@ -26,6 +26,15 @@
 #include "exception"
 #include <cxxabi.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_eh_exception_cc0, "std::exception");
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_eh_exception_cc1, "std::bad_exception");
+
+} // namespace
+
 std::exception::~exception() _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_USE_NOEXCEPT { }
 
 std::bad_exception::~bad_exception() _GLIBCXX_TXN_SAFE_DYN
@@ -42,13 +51,13 @@ std::exception::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_USE_NOEXCEPT
   // NB: Another elegant option would be returning typeid(*this).name()
   // and not overriding what() in bad_exception, bad_alloc, etc.  In
   // that case, however, mangled names would be returned, PR 14493.
-  return "std::exception";
+  return __eqt_excstr_exc_what_eh_exception_cc0;
 }
 
 const char* 
 std::bad_exception::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_USE_NOEXCEPT
 {
-  return "std::bad_exception";
+  return __eqt_excstr_exc_what_eh_exception_cc1;
 }
 
 // Transactional clones for the destructors and what().

@@ -36,6 +36,28 @@
 
 #include <ext/atomicity.h> // _Atomic_word, __is_single_threaded
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h0, __N("%s: __pos (which is %zu) > this->size() (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h1, __N("basic_string::at: __n (which is %zu) >= this->size() (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h2, "basic_string::insert");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h3, "basic_string::erase");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h4, "basic_string::replace");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h5, "basic_string::substr");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h6, "basic_string::compare");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h7, __N("basic_string::_S_construct null not valid"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h8, "basic_string::assign");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h9, "basic_string::append");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h10, __N("basic_string::_S_create"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h11, "basic_string::resize");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h12, "basic_string::_M_replace_dispatch");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h13, "basic_string::_M_replace_aux");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_cow_string_h14, "basic_string::copy");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -358,8 +380,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _M_check(size_type __pos, const char* __s) const
       {
 	if (__pos > this->size())
-	  __throw_out_of_range_fmt(__N("%s: __pos (which is %zu) > "
-				       "this->size() (which is %zu)"),
+	  __throw_out_of_range_fmt(__eqt_excstr_throwing_bits_cow_string_h0,
 				   __s, __pos, this->size());
 	return __pos;
       }
@@ -1123,9 +1144,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       at(size_type __n) const
       {
 	if (__n >= this->size())
-	  __throw_out_of_range_fmt(__N("basic_string::at: __n "
-				       "(which is %zu) >= this->size() "
-				       "(which is %zu)"),
+	  __throw_out_of_range_fmt(__eqt_excstr_throwing_bits_cow_string_h1,
 				   __n, this->size());
 	return _M_data()[__n];
       }
@@ -1145,9 +1164,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       at(size_type __n)
       {
 	if (__n >= size())
-	  __throw_out_of_range_fmt(__N("basic_string::at: __n "
-				       "(which is %zu) >= this->size() "
-				       "(which is %zu)"),
+	  __throw_out_of_range_fmt(__eqt_excstr_throwing_bits_cow_string_h1,
 				   __n, this->size());
 	_M_leak();
 	return _M_data()[__n];
@@ -1672,7 +1689,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       basic_string&
       insert(size_type __pos, size_type __n, _CharT __c)
-      { return _M_replace_aux(_M_check(__pos, "basic_string::insert"),
+      { return _M_replace_aux(_M_check(__pos, __eqt_excstr_throwing_bits_cow_string_h2),
 			      size_type(0), __n, __c); }
 
       /**
@@ -1751,7 +1768,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       basic_string&
       erase(size_type __pos = 0, size_type __n = npos)
       {
-	_M_mutate(_M_check(__pos, "basic_string::erase"),
+	_M_mutate(_M_check(__pos, __eqt_excstr_throwing_bits_cow_string_h3),
 		  _M_limit(__pos, __n), size_type(0));
 	return *this;
       }
@@ -1911,7 +1928,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       basic_string&
       replace(size_type __pos, size_type __n1, size_type __n2, _CharT __c)
-      { return _M_replace_aux(_M_check(__pos, "basic_string::replace"),
+      { return _M_replace_aux(_M_check(__pos, __eqt_excstr_throwing_bits_cow_string_h4),
 			      _M_limit(__pos, __n1), __n2, __c); }
 
       /**
@@ -2785,7 +2802,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       basic_string
       substr(size_type __pos = 0, size_type __n = npos) const
       { return basic_string(*this,
-			    _M_check(__pos, "basic_string::substr"), __n); }
+			    _M_check(__pos, __eqt_excstr_throwing_bits_cow_string_h5), __n); }
 
       /**
        *  @brief  Compare to a string.
@@ -2895,7 +2912,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       int
       compare(size_type __pos, size_type __n, const basic_string& __str) const
       {
-	_M_check(__pos, "basic_string::compare");
+	_M_check(__pos, __eqt_excstr_throwing_bits_cow_string_h6);
 	__n = _M_limit(__pos, __n);
 	const size_type __osize = __str.size();
 	const size_type __len = std::min(__n, __osize);
@@ -2932,7 +2949,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       compare(size_type __pos1, size_type __n1, const basic_string& __str,
 	      size_type __pos2, size_type __n2 = npos) const
       {
-	_M_check(__pos1, "basic_string::compare");
+	_M_check(__pos1, __eqt_excstr_throwing_bits_cow_string_h6);
 	__str._M_check(__pos2, "basic_string::compare");
 	__n1 = _M_limit(__pos1, __n1);
 	__n2 = __str._M_limit(__pos2, __n2);
@@ -2996,7 +3013,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       compare(size_type __pos, size_type __n1, const _CharT* __s) const
       {
 	__glibcxx_requires_string(__s);
-	_M_check(__pos, "basic_string::compare");
+	_M_check(__pos, __eqt_excstr_throwing_bits_cow_string_h6);
 	__n1 = _M_limit(__pos, __n1);
 	const size_type __osize = traits_type::length(__s);
 	const size_type __len = std::min(__n1, __osize);
@@ -3035,7 +3052,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      size_type __n2) const
       {
 	__glibcxx_requires_string_len(__s, __n2);
-	_M_check(__pos, "basic_string::compare");
+	_M_check(__pos, __eqt_excstr_throwing_bits_cow_string_h6);
 	__n1 = _M_limit(__pos, __n1);
 	const size_type __len = std::min(__n1, __n2);
 	int __r = traits_type::compare(_M_data() + __pos, __s, __len);
@@ -3185,7 +3202,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 	// NB: Not required, but considered best practice.
 	if (__gnu_cxx::__is_null_pointer(__beg) && __beg != __end)
-	  __throw_logic_error(__N("basic_string::_S_construct null not valid"));
+	  __throw_logic_error(__eqt_excstr_throwing_bits_cow_string_h7);
 
 	const size_type __dnew = static_cast<size_type>(std::distance(__beg,
 								      __end));
@@ -3273,7 +3290,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     assign(const _CharT* __s, size_type __n)
     {
       __glibcxx_requires_string_len(__s, __n);
-      _M_check_length(this->size(), __n, "basic_string::assign");
+      _M_check_length(this->size(), __n, __eqt_excstr_throwing_bits_cow_string_h8);
       if (_M_disjunct(__s) || _M_rep()->_M_is_shared())
 	return _M_replace_safe(size_type(0), this->size(), __s, __n);
       else
@@ -3296,7 +3313,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       if (__n)
 	{
-	  _M_check_length(size_type(0), __n, "basic_string::append");
+	  _M_check_length(size_type(0), __n, __eqt_excstr_throwing_bits_cow_string_h9);
 	  const size_type __len = __n + this->size();
 	  if (__len > this->capacity() || _M_rep()->_M_is_shared())
 	    this->reserve(__len);
@@ -3314,7 +3331,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       __glibcxx_requires_string_len(__s, __n);
       if (__n)
 	{
-	  _M_check_length(size_type(0), __n, "basic_string::append");
+	  _M_check_length(size_type(0), __n, __eqt_excstr_throwing_bits_cow_string_h9);
 	  const size_type __len = __n + this->size();
 	  if (__len > this->capacity() || _M_rep()->_M_is_shared())
 	    {
@@ -3374,8 +3391,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
      insert(size_type __pos, const _CharT* __s, size_type __n)
      {
        __glibcxx_requires_string_len(__s, __n);
-       _M_check(__pos, "basic_string::insert");
-       _M_check_length(size_type(0), __n, "basic_string::insert");
+       _M_check(__pos, __eqt_excstr_throwing_bits_cow_string_h2);
+       _M_check_length(size_type(0), __n, __eqt_excstr_throwing_bits_cow_string_h2);
        if (_M_disjunct(__s) || _M_rep()->_M_is_shared())
 	 return _M_replace_safe(__pos, size_type(0), __s, __n);
        else
@@ -3429,9 +3446,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	     size_type __n2)
      {
        __glibcxx_requires_string_len(__s, __n2);
-       _M_check(__pos, "basic_string::replace");
+       _M_check(__pos, __eqt_excstr_throwing_bits_cow_string_h4);
        __n1 = _M_limit(__pos, __n1);
-       _M_check_length(__n1, __n2, "basic_string::replace");
+       _M_check_length(__n1, __n2, __eqt_excstr_throwing_bits_cow_string_h4);
        bool __left;
        if (_M_disjunct(__s) || _M_rep()->_M_is_shared())
 	 return _M_replace_safe(__pos, __n1, __s, __n2);
@@ -3576,7 +3593,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 83.  String::npos vs. string::max_size()
       if (__capacity > _S_max_size)
-	__throw_length_error(__N("basic_string::_S_create"));
+	__throw_length_error(__eqt_excstr_throwing_bits_cow_string_h10);
 
       // The standard places no restriction on allocating more memory
       // than is strictly needed within this layer at the moment or as
@@ -3667,7 +3684,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     resize(size_type __n, _CharT __c)
     {
       const size_type __size = this->size();
-      _M_check_length(__size, __n, "basic_string::resize");
+      _M_check_length(__size, __n, __eqt_excstr_throwing_bits_cow_string_h11);
       if (__size < __n)
 	this->append(__n - __size, __c);
       else if (__n < __size)
@@ -3684,7 +3701,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	const basic_string __s(__k1, __k2);
 	const size_type __n1 = __i2 - __i1;
-	_M_check_length(__n1, __s.size(), "basic_string::_M_replace_dispatch");
+	_M_check_length(__n1, __s.size(), __eqt_excstr_throwing_bits_cow_string_h12);
 	return _M_replace_safe(__i1 - _M_ibegin(), __n1, __s._M_data(),
 			       __s.size());
       }
@@ -3695,7 +3712,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_replace_aux(size_type __pos1, size_type __n1, size_type __n2,
 		   _CharT __c)
     {
-      _M_check_length(__n1, __n2, "basic_string::_M_replace_aux");
+      _M_check_length(__n1, __n2, __eqt_excstr_throwing_bits_cow_string_h13);
       _M_mutate(__pos1, __n1, __n2);
       if (__n2)
 	_M_assign(_M_data() + __pos1, __n2, __c);
@@ -3740,7 +3757,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     basic_string<_CharT, _Traits, _Alloc>::
     copy(_CharT* __s, size_type __n, size_type __pos) const
     {
-      _M_check(__pos, "basic_string::copy");
+      _M_check(__pos, __eqt_excstr_throwing_bits_cow_string_h14);
       __n = _M_limit(__pos, __n);
       __glibcxx_requires_string_len(__s, __n);
       if (__n)

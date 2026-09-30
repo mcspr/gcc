@@ -41,6 +41,14 @@
 #ifndef _GLIBCXX_TR1_POLY_LAGUERRE_TCC
 #define _GLIBCXX_TR1_POLY_LAGUERRE_TCC 1
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_poly_laguerre_tcc0, __N("Negative argument in __poly_laguerre."));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -246,8 +254,7 @@ namespace tr1
     __poly_laguerre(unsigned int __n, _Tpa __alpha1, _Tp __x)
     {
       if (__x < _Tp(0))
-        std::__throw_domain_error(__N("Negative argument "
-                                      "in __poly_laguerre."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_poly_laguerre_tcc0);
       //  Return NaN on NaN input.
       else if (__isnan(__x))
         return std::numeric_limits<_Tp>::quiet_NaN();

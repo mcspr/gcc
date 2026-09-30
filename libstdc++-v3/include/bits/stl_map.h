@@ -63,6 +63,14 @@
 #include <tuple>
 #endif
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_stl_map_h0, __N("map::at"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -550,7 +558,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       {
 	iterator __i = lower_bound(__k);
 	if (__i == end() || key_comp()(__k, (*__i).first))
-	  __throw_out_of_range(__N("map::at"));
+	  __throw_out_of_range(__eqt_excstr_throwing_bits_stl_map_h0);
 	return (*__i).second;
       }
 
@@ -559,7 +567,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       {
 	const_iterator __i = lower_bound(__k);
 	if (__i == end() || key_comp()(__k, (*__i).first))
-	  __throw_out_of_range(__N("map::at"));
+	  __throw_out_of_range(__eqt_excstr_throwing_bits_stl_map_h0);
 	return (*__i).second;
       }
 

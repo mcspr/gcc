@@ -43,6 +43,17 @@
 
 #include <bits/cxxabi_forced.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_tcc0, __N("basic_string::_M_create"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_tcc1, "basic_string::_M_replace_aux");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_tcc2, "basic_string::_M_replace");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_tcc3, "basic_string::copy");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -141,7 +152,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 83.  String::npos vs. string::max_size()
       if (__capacity > max_size())
-	std::__throw_length_error(__N("basic_string::_M_create"));
+	std::__throw_length_error(__eqt_excstr_throwing_bits_basic_string_tcc0);
 
       // The below implements an exponential growth policy, necessary to
       // meet amortized linear time requirements of the library: see
@@ -451,7 +462,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_replace_aux(size_type __pos1, size_type __n1, size_type __n2,
 		   _CharT __c)
     {
-      _M_check_length(__n1, __n2, "basic_string::_M_replace_aux");
+      _M_check_length(__n1, __n2, __eqt_excstr_throwing_bits_basic_string_tcc1);
 
       const size_type __old_size = this->size();
       const size_type __new_size = __old_size + __n2 - __n1;
@@ -512,7 +523,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_replace(size_type __pos, size_type __len1, const _CharT* __s,
 	       const size_type __len2)
     {
-      _M_check_length(__len1, __len2, "basic_string::_M_replace");
+      _M_check_length(__len1, __len2, __eqt_excstr_throwing_bits_basic_string_tcc2);
 
       const size_type __old_size = this->size();
       const size_type __new_size = __old_size + __len2 - __len1;
@@ -557,7 +568,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     basic_string<_CharT, _Traits, _Alloc>::
     copy(_CharT* __s, size_type __n, size_type __pos) const
     {
-      _M_check(__pos, "basic_string::copy");
+      _M_check(__pos, __eqt_excstr_throwing_bits_basic_string_tcc3);
       __n = _M_limit(__pos, __n);
       __glibcxx_requires_string_len(__s, __n);
       if (__n)

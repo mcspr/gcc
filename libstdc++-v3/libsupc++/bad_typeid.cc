@@ -23,6 +23,14 @@
 
 #include <typeinfo>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_bad_typeid_cc0, "std::bad_typeid");
+
+} // namespace
+
 namespace std {
 
 bad_typeid::~bad_typeid() _GLIBCXX_USE_NOEXCEPT { }
@@ -30,7 +38,7 @@ bad_typeid::~bad_typeid() _GLIBCXX_USE_NOEXCEPT { }
 const char* 
 bad_typeid::what() const _GLIBCXX_USE_NOEXCEPT
 {
-  return "std::bad_typeid";
+  return __eqt_excstr_exc_what_bad_typeid_cc0;
 }
 
 } // namespace std

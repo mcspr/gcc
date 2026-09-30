@@ -36,6 +36,17 @@
 
 #include <bits/cxxabi_forced.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_vstring_tcc0, "__versa_string::_M_replace_aux");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_vstring_tcc1, "__versa_string::_M_replace");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_vstring_tcc2, "__versa_string::copy");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_vstring_tcc3, "__versa_string::compare");
+
+} // namespace
+
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -100,7 +111,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_replace_aux(size_type __pos1, size_type __n1, size_type __n2,
 		   _CharT __c)
     {
-      _M_check_length(__n1, __n2, "__versa_string::_M_replace_aux");
+      _M_check_length(__n1, __n2, __eqt_excstr_throwing_ext_vstring_tcc0);
 
       const size_type __old_size = this->size();
       const size_type __new_size = __old_size + __n2 - __n1;
@@ -130,7 +141,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_replace(size_type __pos, size_type __len1, const _CharT* __s,
 	       const size_type __len2)
     {
-      _M_check_length(__len1, __len2, "__versa_string::_M_replace");
+      _M_check_length(__len1, __len2, __eqt_excstr_throwing_ext_vstring_tcc1);
 
       const size_type __old_size = this->size();
       const size_type __new_size = __old_size + __len2 - __len1;
@@ -256,7 +267,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     __versa_string<_CharT, _Traits, _Alloc, _Base>::
     copy(_CharT* __s, size_type __n, size_type __pos) const
     {
-      _M_check(__pos, "__versa_string::copy");
+      _M_check(__pos, __eqt_excstr_throwing_ext_vstring_tcc2);
       __n = _M_limit(__pos, __n);
       __glibcxx_requires_string_len(__s, __n);
       if (__n)
@@ -461,7 +472,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     __versa_string<_CharT, _Traits, _Alloc, _Base>::
     compare(size_type __pos, size_type __n, const __versa_string& __str) const
     {
-      _M_check(__pos, "__versa_string::compare");
+      _M_check(__pos, __eqt_excstr_throwing_ext_vstring_tcc3);
       __n = _M_limit(__pos, __n);
       const size_type __osize = __str.size();
       const size_type __len = std::min(__n, __osize);
@@ -479,7 +490,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     compare(size_type __pos1, size_type __n1, const __versa_string& __str,
 	    size_type __pos2, size_type __n2) const
     {
-      _M_check(__pos1, "__versa_string::compare");
+      _M_check(__pos1, __eqt_excstr_throwing_ext_vstring_tcc3);
       __str._M_check(__pos2, "__versa_string::compare");
       __n1 = _M_limit(__pos1, __n1);
       __n2 = __str._M_limit(__pos2, __n2);
@@ -514,7 +525,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     compare(size_type __pos, size_type __n1, const _CharT* __s) const
     {
       __glibcxx_requires_string(__s);
-      _M_check(__pos, "__versa_string::compare");
+      _M_check(__pos, __eqt_excstr_throwing_ext_vstring_tcc3);
       __n1 = _M_limit(__pos, __n1);
       const size_type __osize = traits_type::length(__s);
       const size_type __len = std::min(__n1, __osize);
@@ -532,7 +543,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    size_type __n2) const
     {
       __glibcxx_requires_string_len(__s, __n2);
-      _M_check(__pos, "__versa_string::compare");
+      _M_check(__pos, __eqt_excstr_throwing_ext_vstring_tcc3);
       __n1 = _M_limit(__pos, __n1);
       const size_type __len = std::min(__n1, __n2);
       int __r = traits_type::compare(this->_M_data() + __pos, __s, __len);

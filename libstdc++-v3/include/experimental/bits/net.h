@@ -42,6 +42,14 @@
 # include <concepts>
 #endif
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_bits_net_h0, "invalid value for socket option resize");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -130,7 +138,7 @@ inline namespace v1
 	resize(const _Protocol&, size_t __s)
 	{
 	  if (__s != sizeof(_M_value))
-	    __throw_length_error("invalid value for socket option resize");
+	    __throw_length_error(__eqt_excstr_throwing_experimental_bits_net_h0);
 	}
 
     protected:

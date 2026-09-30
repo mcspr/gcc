@@ -65,6 +65,15 @@
 #include <bits/functional_hash.h>
 #endif
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_stl_bvector_h0, __N("vector<bool>::_M_range_check: __n (which is %zu) >= this->size() (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_stl_bvector_h1, __N("vector::reserve"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -1097,9 +1106,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       _M_range_check(size_type __n) const
       {
 	if (__n >= this->size())
-	  __throw_out_of_range_fmt(__N("vector<bool>::_M_range_check: __n "
-				       "(which is %zu) >= this->size() "
-				       "(which is %zu)"),
+	  __throw_out_of_range_fmt(__eqt_excstr_throwing_bits_stl_bvector_h0,
 				   __n, this->size());
       }
 
@@ -1125,7 +1132,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       reserve(size_type __n)
       {
 	if (__n > max_size())
-	  __throw_length_error(__N("vector::reserve"));
+	  __throw_length_error(__eqt_excstr_throwing_bits_stl_bvector_h1);
 	if (capacity() < __n)
 	  _M_reallocate(__n);
       }

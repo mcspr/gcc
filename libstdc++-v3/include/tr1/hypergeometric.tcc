@@ -41,6 +41,22 @@
 #ifndef _GLIBCXX_TR1_HYPERGEOMETRIC_TCC
 #define _GLIBCXX_TR1_HYPERGEOMETRIC_TCC 1
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_hypergeometric_tcc0, __N("Series failed to converge in __conf_hyperg_series."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_hypergeometric_tcc1, __N("Iteration failed to converge in __conf_hyperg_luke."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_hypergeometric_tcc2, __N("Series failed to converge in __hyperg_series."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_hypergeometric_tcc3, __N("Iteration failed to converge in __hyperg_luke."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_hypergeometric_tcc4, __N("Overflow of gamma functions in __hyperg_luke."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_hypergeometric_tcc5, __N("Sum F2 failed to converge in __hyperg_reflect"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_hypergeometric_tcc6, __N("Overflow of gamma functions in __hyperg_reflect"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_hypergeometric_tcc7, __N("Underflow of gamma functions in __hyperg_reflect"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_hypergeometric_tcc8, __N("Argument outside unit circle in __hyperg."));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -101,8 +117,7 @@ namespace tr1
           __Fac += __term;
         }
       if (__i == __max_iter)
-        std::__throw_runtime_error(__N("Series failed to converge "
-                                       "in __conf_hyperg_series."));
+        std::__throw_runtime_error(__eqt_excstr_throwing_tr1_hypergeometric_tcc0);
 
       return __Fac;
     }
@@ -206,8 +221,7 @@ namespace tr1
         }
 
       if (__n >= __nmax)
-        std::__throw_runtime_error(__N("Iteration failed to converge "
-                                       "in __conf_hyperg_luke."));
+        std::__throw_runtime_error(__eqt_excstr_throwing_tr1_hypergeometric_tcc1);
 
       return __F;
     }
@@ -289,8 +303,7 @@ namespace tr1
           __Fabc += __term;
         }
       if (__i == __max_iter)
-        std::__throw_runtime_error(__N("Series failed to converge "
-                                       "in __hyperg_series."));
+        std::__throw_runtime_error(__eqt_excstr_throwing_tr1_hypergeometric_tcc2);
 
       return __Fabc;
     }
@@ -398,8 +411,7 @@ namespace tr1
         }
 
       if (__n >= __nmax)
-        std::__throw_runtime_error(__N("Iteration failed to converge "
-                                       "in __hyperg_luke."));
+        std::__throw_runtime_error(__eqt_excstr_throwing_tr1_hypergeometric_tcc3);
 
       return __F;
     }
@@ -509,8 +521,7 @@ namespace tr1
                     }
 
                   if (__ln_pre1 > __log_max)
-                    std::__throw_runtime_error(__N("Overflow of gamma functions"
-                                                   " in __hyperg_luke."));
+                    std::__throw_runtime_error(__eqt_excstr_throwing_tr1_hypergeometric_tcc4);
                   else
                     __F1 = std::exp(__ln_pre1) * __sum1;
                 }
@@ -572,8 +583,7 @@ namespace tr1
                     break;
                 }
               if (__j == __maxiter)
-                std::__throw_runtime_error(__N("Sum F2 failed to converge "
-                                               "in __hyperg_reflect"));
+                std::__throw_runtime_error(__eqt_excstr_throwing_tr1_hypergeometric_tcc5);
 
               if (__sum2 == _Tp(0))
                 __F2 = _Tp(0);
@@ -653,8 +663,7 @@ namespace tr1
                 }
               else
                 {
-                  std::__throw_runtime_error(__N("Overflow of gamma functions "
-                                                 "in __hyperg_reflect"));
+                  std::__throw_runtime_error(__eqt_excstr_throwing_tr1_hypergeometric_tcc6);
                 }
             }
           else if (__ok1 && !__ok2)
@@ -668,8 +677,7 @@ namespace tr1
                 }
               else
                 {
-                  std::__throw_runtime_error(__N("Overflow of gamma functions "
-                                                 "in __hyperg_reflect"));
+                  std::__throw_runtime_error(__eqt_excstr_throwing_tr1_hypergeometric_tcc6);
                 }
             }
           else if (!__ok1 && __ok2)
@@ -684,16 +692,14 @@ namespace tr1
                 }
               else
                 {
-                  std::__throw_runtime_error(__N("Overflow of gamma functions "
-                                                 "in __hyperg_reflect"));
+                  std::__throw_runtime_error(__eqt_excstr_throwing_tr1_hypergeometric_tcc6);
                 }
             }
           else
             {
               __pre1 = _Tp(0);
               __pre2 = _Tp(0);
-              std::__throw_runtime_error(__N("Underflow of gamma functions "
-                                             "in __hyperg_reflect"));
+              std::__throw_runtime_error(__eqt_excstr_throwing_tr1_hypergeometric_tcc7);
             }
 
           const _Tp __F1 = __hyperg_series(__a, __b, _Tp(1) - __d,
@@ -740,8 +746,7 @@ namespace tr1
 #endif
       const _Tp __toler = _Tp(1000) * std::numeric_limits<_Tp>::epsilon();
       if (std::abs(__x) >= _Tp(1))
-        std::__throw_domain_error(__N("Argument outside unit circle "
-                                      "in __hyperg."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_hypergeometric_tcc8);
       else if (__isnan(__a) || __isnan(__b)
             || __isnan(__c) || __isnan(__x))
         return std::numeric_limits<_Tp>::quiet_NaN();

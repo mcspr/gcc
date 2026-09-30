@@ -39,6 +39,18 @@
 #include <bits/stl_algo.h>	// For fill
 #include <bits/cxxabi_forced.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr2_dynamic_bitset0, __N("dynamic_bitset::bitset initial position not valid"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr2_dynamic_bitset1, __N("dynamic_bitset::set"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr2_dynamic_bitset2, __N("dynamic_bitset::reset"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr2_dynamic_bitset3, __N("dynamic_bitset::flip"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr2_dynamic_bitset4, __N("dynamic_bitset::test"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -616,8 +628,7 @@ namespace tr2
 	: _Base(__alloc)
 	{
 	  if (__pos > __str.size())
-	    __throw_out_of_range(__N("dynamic_bitset::bitset initial position "
-				     "not valid"));
+	    __throw_out_of_range(__eqt_excstr_throwing_tr2_dynamic_bitset0);
 
 	  // Watch for npos.
 	  this->_M_Nb = (__n > __str.size() ? __str.size() - __pos : __n);
@@ -844,7 +855,7 @@ namespace tr2
       set(size_type __pos, bool __val = true)
       {
 	if (__pos >= _M_Nb)
-	  __throw_out_of_range(__N("dynamic_bitset::set"));
+	  __throw_out_of_range(__eqt_excstr_throwing_tr2_dynamic_bitset1);
 	return this->_M_unchecked_set(__pos, __val);
       }
 
@@ -869,7 +880,7 @@ namespace tr2
       reset(size_type __pos)
       {
 	if (__pos >= _M_Nb)
-	  __throw_out_of_range(__N("dynamic_bitset::reset"));
+	  __throw_out_of_range(__eqt_excstr_throwing_tr2_dynamic_bitset2);
 	return this->_M_unchecked_reset(__pos);
       }
 
@@ -893,7 +904,7 @@ namespace tr2
       flip(size_type __pos)
       {
 	if (__pos >= _M_Nb)
-	  __throw_out_of_range(__N("dynamic_bitset::flip"));
+	  __throw_out_of_range(__eqt_excstr_throwing_tr2_dynamic_bitset3);
 	return this->_M_unchecked_flip(__pos);
       }
 
@@ -1021,7 +1032,7 @@ namespace tr2
       test(size_type __pos) const
       {
 	if (__pos >= _M_Nb)
-	  __throw_out_of_range(__N("dynamic_bitset::test"));
+	  __throw_out_of_range(__eqt_excstr_throwing_tr2_dynamic_bitset4);
 	return _M_unchecked_test(__pos);
       }
 

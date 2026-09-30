@@ -47,6 +47,15 @@
 
 #include <tr1/special_function_util.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_exp_integral_tcc0, __N("Series summation failed in __expint_En_series."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_exp_integral_tcc1, __N("Continued fraction failed in __expint_En_cont_frac."));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -180,8 +189,7 @@ namespace tr1
           if (std::abs(__del) < __eps * std::abs(__ans))
             return __ans;
         }
-      std::__throw_runtime_error(__N("Series summation failed "
-                                     "in __expint_En_series."));
+      std::__throw_runtime_error(__eqt_excstr_throwing_tr1_exp_integral_tcc0);
     }
 
 
@@ -224,8 +232,7 @@ namespace tr1
               return __ans;
             }
         }
-      std::__throw_runtime_error(__N("Continued fraction failed "
-                                     "in __expint_En_cont_frac."));
+      std::__throw_runtime_error(__eqt_excstr_throwing_tr1_exp_integral_tcc1);
     }
 
 

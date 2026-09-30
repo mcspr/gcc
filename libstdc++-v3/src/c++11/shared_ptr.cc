@@ -49,6 +49,14 @@ namespace __gnu_internal _GLIBCXX_VISIBILITY(hidden)
   }
 }
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_shared_ptr_cc0, "bad_weak_ptr");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -57,7 +65,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   char const*
   bad_weak_ptr::what() const noexcept
-  { return "bad_weak_ptr"; }
+  { return __eqt_excstr_exc_what_shared_ptr_cc0; }
 
 #ifdef __GTHREADS
   namespace

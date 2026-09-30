@@ -56,6 +56,18 @@
 #endif
 
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_variant_std_variant0, "bad variant access");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_variant0, "std::get: variant is valueless");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_variant1, "std::get: wrong index for variant");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_variant2, "std::visit: variant is valueless");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_variant3, "std::visit<R>: variant is valueless");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -1338,7 +1350,7 @@ namespace __variant
     bad_variant_access(const char* __reason) noexcept : _M_reason(__reason) { }
 
     // Must point to a string with static storage duration:
-    const char* _M_reason = "bad variant access";
+    const char* _M_reason = __eqt_excstr_variant_std_variant0;
 
     friend void __throw_bad_variant_access(const char* __what);
   };
@@ -1352,9 +1364,9 @@ namespace __variant
   __throw_bad_variant_access(bool __valueless)
   {
     if (__valueless) [[__unlikely__]]
-      __throw_bad_variant_access("std::get: variant is valueless");
+      __throw_bad_variant_access(__eqt_excstr_throwing_std_variant0);
     else
-      __throw_bad_variant_access("std::get: wrong index for variant");
+      __throw_bad_variant_access(__eqt_excstr_throwing_std_variant1);
   }
 
   template<typename... _Types>
@@ -1857,7 +1869,7 @@ namespace __variant
       namespace __variant = std::__detail::__variant;
 
       if ((__variant::__as(__variants).valueless_by_exception() || ...))
-	__throw_bad_variant_access("std::visit: variant is valueless");
+	__throw_bad_variant_access(__eqt_excstr_throwing_std_variant2);
 
       using _Result_type
 	= __detail::__variant::__visit_result_t<_Visitor, _Variants...>;
@@ -1897,7 +1909,7 @@ namespace __variant
       namespace __variant = std::__detail::__variant;
 
       if ((__variant::__as(__variants).valueless_by_exception() || ...))
-	__throw_bad_variant_access("std::visit<R>: variant is valueless");
+	__throw_bad_variant_access(__eqt_excstr_throwing_std_variant3);
 
       return std::__do_visit<_Res>(std::forward<_Visitor>(__visitor),
 	  __variant::__as(std::forward<_Variants>(__variants))...);

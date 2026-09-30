@@ -89,6 +89,22 @@
 # include <chrono>
 #endif
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_random_cc0, __N("random_device: rdrand failed"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_random_cc1, __N("random_device: rdseed failed"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_random_cc2, __N("random_device: darn failed"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_random_cc3, __N("random_device: rand_s failed"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_random_cc4, __N("random_device: getentropy failed"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_random_cc5, __N("random_device::random_device(const std::string&): unsupported token"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_random_cc6, __N("random_device::random_device(const std::string&): device not available"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_random_cc7, __N("random_device::_M_init_pretr1(const std::string&)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_random_cc8, __N("random_device could not be read"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
   namespace
@@ -108,7 +124,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
 
       while (__builtin_ia32_rdrand32_step(&val) == 0) [[__unlikely__]]
 	if (--retries == 0)
-	  std::__throw_runtime_error(__N("random_device: rdrand failed"));
+	  std::__throw_runtime_error(__eqt_excstr_throwing_random_cc0);
 
       return val;
     }
@@ -128,7 +144,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
 	    {
 	      if (auto f = reinterpret_cast<unsigned int(*)(void*)>(fallback))
 		return f(nullptr);
-	      std::__throw_runtime_error(__N("random_device: rdseed failed"));
+	      std::__throw_runtime_error(__eqt_excstr_throwing_random_cc1);
 	    }
 	  __builtin_ia32_pause();
 	}
@@ -157,7 +173,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
       while (val == failed) [[__unlikely__]]
 	{
 	  if (--retries == 0)
-	    std::__throw_runtime_error(__N("random_device: darn failed"));
+	    std::__throw_runtime_error(__eqt_excstr_throwing_random_cc2);
 	  val = __builtin_darn();
 	}
       return (uint32_t)val;
@@ -170,7 +186,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
     {
       unsigned int val;
       if (::rand_s(&val) != 0)
-	std::__throw_runtime_error(__N("random_device: rand_s failed"));
+	std::__throw_runtime_error(__eqt_excstr_throwing_random_cc3);
       return val;
     }
 #endif
@@ -181,7 +197,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
     {
       unsigned int val;
       if (::getentropy(&val, sizeof(val)) != 0)
-	std::__throw_runtime_error(__N("random_device: getentropy failed"));
+	std::__throw_runtime_error(__eqt_excstr_throwing_random_cc4);
       return val;
     }
 #endif
@@ -369,9 +385,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
       which = prng;
 #endif
     else
-      std::__throw_syserr(EINVAL, __N("random_device::random_device"
-				      "(const std::string&):"
-				      " unsupported token"));
+      std::__throw_syserr(EINVAL, __eqt_excstr_throwing_random_cc5);
 
 #if defined ENOSYS
     [[maybe_unused]] const int unsupported = ENOSYS;
@@ -507,8 +521,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
     }
 #endif
 
-    auto msg = __N("random_device::random_device(const std::string&):"
-		   " device not available");
+    auto msg = __eqt_excstr_throwing_random_cc6;
     if (err)
       std::__throw_syserr(err, msg);
     else
@@ -529,8 +542,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
 	char* endptr;
 	seed = std::strtoul(nptr, &endptr, 0);
 	if (*nptr == '\0' || *endptr != '\0')
-	  std::__throw_syserr(EINVAL, __N("random_device::_M_init_pretr1"
-					  "(const std::string&)"));
+	  std::__throw_syserr(EINVAL, __eqt_excstr_throwing_random_cc7);
       }
     _M_mt.seed(seed);
 #else
@@ -603,13 +615,13 @@ namespace std _GLIBCXX_VISIBILITY(default)
 	    p = static_cast<char*>(p) + e;
 	  }
 	else if (e != -1 || errno != EINTR)
-	  __throw_syserr(errno, __N("random_device could not be read"));
+	  __throw_syserr(errno, __eqt_excstr_throwing_random_cc8);
       }
     while (n > 0);
 #else // USE_POSIX_FILE_IO
     const size_t e = std::fread(p, n, 1, static_cast<FILE*>(_M_file));
     if (e != 1)
-      __throw_runtime_error(__N("random_device could not be read"));
+      __throw_runtime_error(__eqt_excstr_throwing_random_cc8);
 #endif // USE_POSIX_FILE_IO
 
     return ret;

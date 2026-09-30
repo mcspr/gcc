@@ -42,6 +42,14 @@
 #include <bits/stl_construct.h>	// construct_at
 #include <bits/utility.h>	// in_place_t
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_std_expected0, "bad access to std::expected without expected value");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -90,7 +98,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       [[nodiscard]]
       const char*
       what() const noexcept override
-      { return "bad access to std::expected without expected value"; }
+      { return __eqt_excstr_exc_what_std_expected0; }
     };
 
   template<typename _Er>

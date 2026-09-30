@@ -49,6 +49,14 @@
 #ifndef _TR1_SHARED_PTR_H
 #define _TR1_SHARED_PTR_H 1
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_tr1_shared_ptr_h0, "tr1::bad_weak_ptr");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -64,7 +72,7 @@ namespace tr1
   public:
     virtual char const*
     what() const throw()
-    { return "tr1::bad_weak_ptr"; }
+    { return __eqt_excstr_exc_what_tr1_shared_ptr_h0; }
   };
 
   // Substitute for bad_weak_ptr object in the case of -fno-exceptions.

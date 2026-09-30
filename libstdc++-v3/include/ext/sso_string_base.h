@@ -32,6 +32,15 @@
 
 #include <bits/requires_hosted.h> // GNU extensions are currently omitted
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_sso_string_base_h0, __N("__sso_string_base::_M_create"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_sso_string_base_h1, __N("__sso_string_base::_M_construct null not valid"));
+
+} // namespace
+
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -319,7 +328,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 83.  String::npos vs. string::max_size()
       if (__capacity > _M_max_size())
-	std::__throw_length_error(__N("__sso_string_base::_M_create"));
+	std::__throw_length_error(__eqt_excstr_throwing_ext_sso_string_base_h0);
 
       // The below implements an exponential growth policy, necessary to
       // meet amortized linear time requirements of the library: see
@@ -443,8 +452,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	// NB: Not required, but considered best practice.
 	if (__is_null_pointer(__beg) && __beg != __end)
-	  std::__throw_logic_error(__N("__sso_string_base::"
-				       "_M_construct null not valid"));
+	  std::__throw_logic_error(__eqt_excstr_throwing_ext_sso_string_base_h1);
 
 	size_type __dnew = static_cast<size_type>(std::distance(__beg, __end));
 

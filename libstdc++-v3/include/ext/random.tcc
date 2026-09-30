@@ -34,6 +34,16 @@
 
 #include <bits/requires_hosted.h> // GNU extensions are currently omitted
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_random_tcc0, __N("normal_mv_distribution::param_type::_M_init_full"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_random_tcc1, __N("normal_mv_distribution::param_type::_M_init_lower"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_random_tcc2, __N("normal_mv_distribution::param_type::_M_init_diagonal"));
+
+} // namespace
+
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -541,8 +551,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 	    __sum = *__varcovbegin - __sum;
 	    if (__builtin_expect(__sum <= _RealType(0), 0))
-	      std::__throw_runtime_error(__N("normal_mv_distribution::"
-					     "param_type::_M_init_full"));
+	      std::__throw_runtime_error(__eqt_excstr_throwing_ext_random_tcc0);
 	    *__w++ = std::sqrt(__sum);
 
 	    std::advance(__varcovbegin, _Dimen - __j);
@@ -582,8 +591,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 	    __sum = *__varcovbegin++ - __sum;
 	    if (__builtin_expect(__sum <= _RealType(0), 0))
-	      std::__throw_runtime_error(__N("normal_mv_distribution::"
-					     "param_type::_M_init_lower"));
+	      std::__throw_runtime_error(__eqt_excstr_throwing_ext_random_tcc1);
 	    *__w++ = std::sqrt(__sum);
 	  }
       }
@@ -607,8 +615,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    std::fill_n(__w, __step, _RealType(0));
 	    __w += __step++;
 	    if (__builtin_expect(*__varbegin < _RealType(0), 0))
-	      std::__throw_runtime_error(__N("normal_mv_distribution::"
-					     "param_type::_M_init_diagonal"));
+	      std::__throw_runtime_error(__eqt_excstr_throwing_ext_random_tcc2);
 	    *__w++ = std::sqrt(*__varbegin++);
 	  }
       }

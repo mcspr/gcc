@@ -56,6 +56,23 @@
 #ifndef _VECTOR_TCC
 #define _VECTOR_TCC 1
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_vector_tcc0, __N("vector::reserve"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_vector_tcc1, "vector::_M_realloc_insert");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_vector_tcc2, "vector::_M_realloc_append");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_vector_tcc3, "vector::_M_fill_insert");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_vector_tcc4, "vector::_M_fill_append");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_vector_tcc5, "vector::_M_default_append");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_vector_tcc6, "vector::_M_range_insert");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_vector_tcc7, "vector<bool>::_M_fill_insert");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_vector_tcc8, "vector<bool>::_M_insert_range");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_vector_tcc9, "vector<bool>::_M_insert_aux");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -68,7 +85,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     reserve(size_type __n)
     {
       if (__n > this->max_size())
-	__throw_length_error(__N("vector::reserve"));
+	__throw_length_error(__eqt_excstr_throwing_bits_vector_tcc0);
       if (this->capacity() < __n)
 	{
 	  const size_type __old_size = size();
@@ -458,7 +475,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     _M_realloc_insert(iterator __position, const _Tp& __x)
 #endif
     {
-      const size_type __len = _M_check_len(1u, "vector::_M_realloc_insert");
+      const size_type __len = _M_check_len(1u, __eqt_excstr_throwing_bits_vector_tcc1);
       if (__len <= 0)
 	__builtin_unreachable ();
       pointer __old_start = this->_M_impl._M_start;
@@ -587,7 +604,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     _M_realloc_append(const _Tp& __x)
 #endif
     {
-      const size_type __len = _M_check_len(1u, "vector::_M_realloc_append");
+      const size_type __len = _M_check_len(1u, __eqt_excstr_throwing_bits_vector_tcc2);
       if (__len <= 0)
 	__builtin_unreachable ();
       pointer __old_start = this->_M_impl._M_start;
@@ -755,7 +772,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	      const pointer __pos = __position.base();
 
 	      const size_type __len =
-		_M_check_len(__n, "vector::_M_fill_insert");
+		_M_check_len(__n, __eqt_excstr_throwing_bits_vector_tcc3);
 	      const size_type __elems_before = __pos - __old_start;
 	      pointer __new_start(this->_M_allocate(__len));
 	      pointer __new_finish(__new_start);
@@ -824,7 +841,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	   const size_type __old_size = __old_finish - __old_start;
 
 	   const size_type __len =
-	     _M_check_len(__n, "vector::_M_fill_append");
+	     _M_check_len(__n, __eqt_excstr_throwing_bits_vector_tcc4);
 	   pointer __new_start(this->_M_allocate(__len));
 	   pointer __new_finish(__new_start + __old_size);
 	   __try
@@ -889,7 +906,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	      pointer __old_finish = this->_M_impl._M_finish;
 
 	      const size_type __len =
-		_M_check_len(__n, "vector::_M_default_append");
+		_M_check_len(__n, __eqt_excstr_throwing_bits_vector_tcc5);
 	      pointer __new_start(this->_M_allocate(__len));
 
 	      // RAII guard for allocated storage.
@@ -1065,7 +1082,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 		  __builtin_unreachable();
 
 		const size_type __len =
-		  _M_check_len(__n, "vector::_M_range_insert");
+		  _M_check_len(__n, __eqt_excstr_throwing_bits_vector_tcc6);
 #if __cplusplus < 201103L
 		if (__len < (__n + (__old_finish - __old_start)))
 		  __builtin_unreachable();
@@ -1145,7 +1162,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       else
 	{
 	  const size_type __len = 
-	    _M_check_len(__n, "vector<bool>::_M_fill_insert");
+	    _M_check_len(__n, __eqt_excstr_throwing_bits_vector_tcc7);
 	  iterator __begin = begin(), __end = end();
 	  _Bit_pointer __q = this->_M_allocate(__len);
 	  iterator __start(std::__addressof(*__q), 0);
@@ -1182,7 +1199,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	    else
 	      {
 		const size_type __len =
-		  _M_check_len(__n, "vector<bool>::_M_insert_range");
+		  _M_check_len(__n, __eqt_excstr_throwing_bits_vector_tcc8);
 		const iterator __begin = begin(), __end = end();
 		_Bit_pointer __q = this->_M_allocate(__len);
 		iterator __start(std::__addressof(*__q), 0);
@@ -1213,7 +1230,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       else
 	{
 	  const size_type __len =
-	    _M_check_len(size_type(1), "vector<bool>::_M_insert_aux");
+	    _M_check_len(size_type(1), __eqt_excstr_throwing_bits_vector_tcc9);
 	  _Bit_pointer __q = this->_M_allocate(__len);
 	  iterator __start(std::__addressof(*__q), 0);
 	  iterator __i = _M_copy_aligned(begin(), __position, __start);

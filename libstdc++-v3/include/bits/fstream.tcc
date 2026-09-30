@@ -40,6 +40,19 @@
 #include <bits/move.h>   // for swap
 #include <cerrno>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_fstream_tcc0, __N("basic_filebuf::underflow codecvt::max_length() is not valid"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_fstream_tcc1, __N("basic_filebuf::underflow incomplete character in file"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_fstream_tcc2, __N("basic_filebuf::underflow invalid byte sequence in file"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_fstream_tcc3, __N("basic_filebuf::underflow error reading the file"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_fstream_tcc4, __N("basic_filebuf::_M_convert_to_external conversion error"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_fstream_tcc5, __N("basic_filebuf::xsgetn error reading the file"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -406,9 +419,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		      // codecvt::max_length() is bogus.
 		      if (_M_ext_end - _M_ext_buf + __rlen > _M_ext_buf_size)
 			{
-			  __throw_ios_failure(__N("basic_filebuf::underflow "
-					      "codecvt::max_length() "
-					      "is not valid"));
+			  __throw_ios_failure(__eqt_excstr_throwing_bits_fstream_tcc0);
 			}
 		      streamsize __elen = _M_file.xsgetn(_M_ext_end, __rlen);
 		      if (__elen == 0)
@@ -463,15 +474,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      // However, reaching it while looping on partial means that
 	      // the file has got an incomplete character.
 	      if (__r == codecvt_base::partial)
-		__throw_ios_failure(__N("basic_filebuf::underflow "
-				    "incomplete character in file"));
+		__throw_ios_failure(__eqt_excstr_throwing_bits_fstream_tcc1);
 	    }
 	  else if (__r == codecvt_base::error)
-	    __throw_ios_failure(__N("basic_filebuf::underflow "
-				"invalid byte sequence in file"));
+	    __throw_ios_failure(__eqt_excstr_throwing_bits_fstream_tcc2);
 	  else
-	    __throw_ios_failure(__N("basic_filebuf::underflow "
-				"error reading the file"), errno);
+	    __throw_ios_failure(__eqt_excstr_throwing_bits_fstream_tcc3, errno);
 	}
       return __ret;
     }
@@ -635,8 +643,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      __blen = __ilen;
 	    }
 	  else
-	    __throw_ios_failure(__N("basic_filebuf::_M_convert_to_external "
-				    "conversion error"));
+	    __throw_ios_failure(__eqt_excstr_throwing_bits_fstream_tcc4);
   
 	  __elen = _M_file.xsputn(__buf, __blen);
 	  __plen = __blen;
@@ -656,8 +663,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		  __plen = __rlen;
 		}
 	      else
-		__throw_ios_failure(__N("basic_filebuf::_M_convert_to_external "
-					"conversion error"));
+		__throw_ios_failure(__eqt_excstr_throwing_bits_fstream_tcc4);
 	    }
 	}
       return __elen == __plen;
@@ -716,8 +722,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    {
 	      __len = _M_file.xsgetn(reinterpret_cast<char*>(__s), __n);
 	      if (__len == -1)
-		__throw_ios_failure(__N("basic_filebuf::xsgetn "
-					"error reading the file"), errno);
+		__throw_ios_failure(__eqt_excstr_throwing_bits_fstream_tcc5, errno);
 	      if (__len == 0)
 		break;
  

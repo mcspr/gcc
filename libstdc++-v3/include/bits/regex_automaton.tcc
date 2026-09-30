@@ -28,6 +28,16 @@
  *  Do not attempt to use it directly. @headername{regex}
  */
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_automaton_tcc0, "Unexpected back-reference in polynomial mode.");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_automaton_tcc1, "Back-reference index exceeds current sub-expression count.");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_automaton_tcc2, "Back-reference referred to an opened sub-expression.");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -150,7 +160,7 @@ namespace __detail
     {
       if (this->_M_flags & regex_constants::__polynomial)
 	__throw_regex_error(regex_constants::error_complexity,
-			    "Unexpected back-reference in polynomial mode.");
+			    __eqt_excstr_throwing_bits_regex_automaton_tcc0);
       // To figure out whether a backref is valid, a stack is used to store
       // unfinished sub-expressions. For example, when parsing
       // "(a(b)(c\\1(d)))" at '\\1', _M_subexpr_count is 3, indicating that 3
@@ -161,12 +171,12 @@ namespace __detail
       if (__index >= _M_subexpr_count)
 	__throw_regex_error(
 	  regex_constants::error_backref,
-	  "Back-reference index exceeds current sub-expression count.");
+	  __eqt_excstr_throwing_bits_regex_automaton_tcc1);
       for (auto __it : this->_M_paren_stack)
 	if (__index == __it)
 	  __throw_regex_error(
 	    regex_constants::error_backref,
-	    "Back-reference referred to an opened sub-expression.");
+	    __eqt_excstr_throwing_bits_regex_automaton_tcc2);
       this->_M_has_backref = true;
       _StateT __tmp(_S_opcode_backref);
       __tmp._M_backref_index = __index;

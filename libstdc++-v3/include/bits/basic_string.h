@@ -57,6 +57,23 @@
 # include "cow_string.h"
 #else
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_h0, __N("%s: __pos (which is %zu) > this->size() (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_h1, __N("basic_string: construction from null is not valid"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_h2, __N("basic_string::at: __n (which is %zu) >= this->size() (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_h3, "basic_string::append");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_h4, "basic_string::insert");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_h5, "basic_string::erase");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_h6, "basic_string::replace");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_h7, "basic_string::substr");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_h8, "basic_string::compare");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_string_h9, "stof");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -391,8 +408,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       _M_check(size_type __pos, const char* __s) const
       {
 	if (__pos > this->size())
-	  __throw_out_of_range_fmt(__N("%s: __pos (which is %zu) > "
-				       "this->size() (which is %zu)"),
+	  __throw_out_of_range_fmt(__eqt_excstr_throwing_bits_basic_string_h0,
 				   __s, __pos, this->size());
 	return __pos;
       }
@@ -627,8 +643,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       {
 	// NB: Not required, but considered best practice.
 	if (__s == 0 && __n > 0)
-	  std::__throw_logic_error(__N("basic_string: "
-				       "construction from null is not valid"));
+	  std::__throw_logic_error(__eqt_excstr_throwing_bits_basic_string_h1);
 	_M_construct(__s, __s + __n, std::forward_iterator_tag());
       }
 
@@ -648,8 +663,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       {
 	// NB: Not required, but considered best practice.
 	if (__s == 0)
-	  std::__throw_logic_error(__N("basic_string: "
-				       "construction from null is not valid"));
+	  std::__throw_logic_error(__eqt_excstr_throwing_bits_basic_string_h1);
 	const _CharT* __end = __s + traits_type::length(__s);
 	_M_construct(__s, __end, forward_iterator_tag());
       }
@@ -1287,9 +1301,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       at(size_type __n) const
       {
 	if (__n >= this->size())
-	  __throw_out_of_range_fmt(__N("basic_string::at: __n "
-				       "(which is %zu) >= this->size() "
-				       "(which is %zu)"),
+	  __throw_out_of_range_fmt(__eqt_excstr_throwing_bits_basic_string_h2,
 				   __n, this->size());
 	return _M_data()[__n];
       }
@@ -1309,9 +1321,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       at(size_type __n)
       {
 	if (__n >= size())
-	  __throw_out_of_range_fmt(__N("basic_string::at: __n "
-				       "(which is %zu) >= this->size() "
-				       "(which is %zu)"),
+	  __throw_out_of_range_fmt(__eqt_excstr_throwing_bits_basic_string_h2,
 				   __n, this->size());
 	return _M_data()[__n];
       }
@@ -1466,7 +1476,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       append(const _CharT* __s, size_type __n)
       {
 	__glibcxx_requires_string_len(__s, __n);
-	_M_check_length(size_type(0), __n, "basic_string::append");
+	_M_check_length(size_type(0), __n, __eqt_excstr_throwing_bits_basic_string_h3);
 	return _M_append(__s, __n);
       }
 
@@ -1481,7 +1491,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       {
 	__glibcxx_requires_string(__s);
 	const size_type __n = traits_type::length(__s);
-	_M_check_length(size_type(0), __n, "basic_string::append");
+	_M_check_length(size_type(0), __n, __eqt_excstr_throwing_bits_basic_string_h3);
 	return _M_append(__s, __n);
       }
 
@@ -2030,7 +2040,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       _GLIBCXX20_CONSTEXPR
       basic_string&
       insert(size_type __pos, size_type __n, _CharT __c)
-      { return _M_replace_aux(_M_check(__pos, "basic_string::insert"),
+      { return _M_replace_aux(_M_check(__pos, __eqt_excstr_throwing_bits_basic_string_h4),
 			      size_type(0), __n, __c); }
 
       /**
@@ -2113,7 +2123,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       basic_string&
       erase(size_type __pos = 0, size_type __n = npos)
       {
-	_M_check(__pos, "basic_string::erase");
+	_M_check(__pos, __eqt_excstr_throwing_bits_basic_string_h5);
 	if (__n == npos)
 	  this->_M_set_length(__pos);
 	else if (__n != 0)
@@ -2250,7 +2260,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 	      size_type __n2)
       {
 	__glibcxx_requires_string_len(__s, __n2);
-	return _M_replace(_M_check(__pos, "basic_string::replace"),
+	return _M_replace(_M_check(__pos, __eqt_excstr_throwing_bits_basic_string_h6),
 			  _M_limit(__pos, __n1), __s, __n2);
       }
 
@@ -2298,7 +2308,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       _GLIBCXX20_CONSTEXPR
       basic_string&
       replace(size_type __pos, size_type __n1, size_type __n2, _CharT __c)
-      { return _M_replace_aux(_M_check(__pos, "basic_string::replace"),
+      { return _M_replace_aux(_M_check(__pos, __eqt_excstr_throwing_bits_basic_string_h6),
 			      _M_limit(__pos, __n1), __n2, __c); }
 
       /**
@@ -3207,7 +3217,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       basic_string
       substr(size_type __pos = 0, size_type __n = npos) const
       { return basic_string(*this,
-			    _M_check(__pos, "basic_string::substr"), __n); }
+			    _M_check(__pos, __eqt_excstr_throwing_bits_basic_string_h7), __n); }
 
       /**
        *  @brief  Compare to a string.
@@ -3322,7 +3332,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       int
       compare(size_type __pos, size_type __n, const basic_string& __str) const
       {
-	_M_check(__pos, "basic_string::compare");
+	_M_check(__pos, __eqt_excstr_throwing_bits_basic_string_h8);
 	__n = _M_limit(__pos, __n);
 	const size_type __osize = __str.size();
 	const size_type __len = std::min(__n, __osize);
@@ -3360,7 +3370,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       compare(size_type __pos1, size_type __n1, const basic_string& __str,
 	      size_type __pos2, size_type __n2 = npos) const
       {
-	_M_check(__pos1, "basic_string::compare");
+	_M_check(__pos1, __eqt_excstr_throwing_bits_basic_string_h8);
 	__str._M_check(__pos2, "basic_string::compare");
 	__n1 = _M_limit(__pos1, __n1);
 	__n2 = __str._M_limit(__pos2, __n2);
@@ -3426,7 +3436,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       compare(size_type __pos, size_type __n1, const _CharT* __s) const
       {
 	__glibcxx_requires_string(__s);
-	_M_check(__pos, "basic_string::compare");
+	_M_check(__pos, __eqt_excstr_throwing_bits_basic_string_h8);
 	__n1 = _M_limit(__pos, __n1);
 	const size_type __osize = traits_type::length(__s);
 	const size_type __len = std::min(__n1, __osize);
@@ -3466,7 +3476,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 	      size_type __n2) const
       {
 	__glibcxx_requires_string_len(__s, __n2);
-	_M_check(__pos, "basic_string::compare");
+	_M_check(__pos, __eqt_excstr_throwing_bits_basic_string_h8);
 	__n1 = _M_limit(__pos, __n1);
 	const size_type __len = std::min(__n1, __n2);
 	int __r = traits_type::compare(_M_data() + __pos, __s, __len);
@@ -4213,7 +4223,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 	if (__abs_d < __FLT_MIN__ || __abs_d > __FLT_MAX__)
 	  {
 	    errno = ERANGE;
-	    std::__throw_out_of_range("stof");
+	    std::__throw_out_of_range(__eqt_excstr_throwing_bits_basic_string_h9);
 	  }
       }
     return __d;

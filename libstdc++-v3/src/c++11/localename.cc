@@ -30,6 +30,14 @@
 #include <cstdlib>
 #include <locale>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_localename_cc0, __N("locale::locale null not valid"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -149,7 +157,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  }
       }
     else
-      __throw_runtime_error(__N("locale::locale null not valid"));
+      __throw_runtime_error(__eqt_excstr_throwing_localename_cc0);
   }
 
   locale::locale(const locale& __base, const char* __s, category __cat)

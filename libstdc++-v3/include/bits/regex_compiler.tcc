@@ -55,6 +55,18 @@
 // All dummy nodes will be eliminated at the end of compilation.
 */
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_compiler_tcc0, "Invalid start of '[x-x]' range in regular expression");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_compiler_tcc1, "Invalid end of '[x-x]' range in regular expression");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_compiler_tcc2, "Invalid location of '-' within '[...]' in POSIX regular expression");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_compiler_tcc3, "Unexpected character within '[...]' in regular expression");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_compiler_tcc4, "invalid back reference");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -495,8 +507,7 @@ namespace __detail
 	    {
 	      // "\\w-" is invalid, start of range must be a single char.
 	      __throw_regex_error(regex_constants::error_range,
-				  "Invalid start of '[x-x]' range in "
-				  "regular expression");
+				  __eqt_excstr_throwing_bits_regex_compiler_tcc0);
 	    }
 	  else if (__last_char._M_is_char())
 	    {
@@ -514,8 +525,7 @@ namespace __detail
 		}
 	      else
 		__throw_regex_error(regex_constants::error_range,
-				    "Invalid end of '[x-x]' range in "
-				    "regular expression");
+				    __eqt_excstr_throwing_bits_regex_compiler_tcc1);
 	    }
 	  else if (_M_flags & regex_constants::ECMAScript)
 	    {
@@ -526,8 +536,7 @@ namespace __detail
 	    }
 	  else
 	    __throw_regex_error(regex_constants::error_range,
-				"Invalid location of '-' within '[...]' in "
-				"POSIX regular expression");
+				__eqt_excstr_throwing_bits_regex_compiler_tcc2);
 	}
       else if (_M_match_token(_ScannerT::_S_token_quoted_class))
 	{
@@ -538,8 +547,7 @@ namespace __detail
 	}
       else
 	__throw_regex_error(regex_constants::error_brack,
-			    "Unexpected character within '[...]' in "
-			    "regular expression");
+			    __eqt_excstr_throwing_bits_regex_compiler_tcc3);
       return true;
     }
 
@@ -588,7 +596,7 @@ namespace __detail
 	if (__builtin_mul_overflow(__v, __radix, &__v)
 	    || __builtin_add_overflow(__v, _M_traits.value(__c, __radix), &__v))
 	    std::__throw_regex_error(regex_constants::error_backref,
-				     "invalid back reference");
+				     __eqt_excstr_throwing_bits_regex_compiler_tcc4);
       return __v;
     }
 

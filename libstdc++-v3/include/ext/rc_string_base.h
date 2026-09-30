@@ -36,6 +36,15 @@
 #include <ext/alloc_traits.h>
 #include <bits/stl_iterator_base_funcs.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_rc_string_base_h0, __N("__rc_string_base::_Rep::_S_create"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_rc_string_base_h1, __N("__rc_string_base::_S_construct null not valid"));
+
+} // namespace
+
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -382,7 +391,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 83.  String::npos vs. string::max_size()
       if (__capacity > size_type(_S_max_size))
-	std::__throw_length_error(__N("__rc_string_base::_Rep::_S_create"));
+	std::__throw_length_error(__eqt_excstr_throwing_ext_rc_string_base_h0);
 
       // The standard places no restriction on allocating more memory
       // than is strictly needed within this layer at the moment or as
@@ -568,8 +577,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 	// NB: Not required, but considered best practice.
 	if (__is_null_pointer(__beg) && __beg != __end)
-	  std::__throw_logic_error(__N("__rc_string_base::"
-				       "_S_construct null not valid"));
+	  std::__throw_logic_error(__eqt_excstr_throwing_ext_rc_string_base_h1);
 
 	const size_type __dnew = static_cast<size_type>(std::distance(__beg,
 								      __end));

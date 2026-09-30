@@ -46,6 +46,14 @@
 
 #ifdef _GLIBCXX_SHARED
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_compatibility_c_0x_cc0, "std::lock_error");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -62,7 +70,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   const char*
   lock_error::what() const throw()
-  { return "std::lock_error"; }
+  { return __eqt_excstr_exc_what_compatibility_c_0x_cc0; }
 #endif
 
   // We need these due to the symbols exported since GLIBCXX_3.4.10.

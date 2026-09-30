@@ -39,6 +39,15 @@
 #include <bits/allocator.h>
 #include <bits/codecvt.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_locale_conv_h0, "wstring_convert::from_bytes");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_locale_conv_h1, "wstring_convert::to_bytes");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -343,7 +352,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 	  return __out;
 	if (_M_with_strings)
 	  return _M_wide_err_string;
-	__throw_range_error("wstring_convert::from_bytes");
+	__throw_range_error(__eqt_excstr_throwing_bits_locale_conv_h0);
       }
       /// @}
 
@@ -379,7 +388,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 	  return __out;
 	if (_M_with_strings)
 	  return _M_byte_err_string;
-	__throw_range_error("wstring_convert::to_bytes");
+	__throw_range_error(__eqt_excstr_throwing_bits_locale_conv_h1);
       }
       /// @}
 

@@ -39,6 +39,14 @@
 #include <ext/alloc_traits.h>	// for std::__alloc_rebind
 #include <ext/numeric_traits.h>	// for __gnu_cxx::__int_traits
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_hashtable_policy_h0, __N("unordered_map::at"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -853,7 +861,7 @@ namespace __detail
       {
 	auto __ite = static_cast<__hashtable*>(this)->find(__k);
 	if (!__ite._M_cur)
-	  __throw_out_of_range(__N("unordered_map::at"));
+	  __throw_out_of_range(__eqt_excstr_throwing_bits_hashtable_policy_h0);
 	return __ite->second;
       }
 
@@ -862,7 +870,7 @@ namespace __detail
       {
 	auto __ite = static_cast<const __hashtable*>(this)->find(__k);
 	if (!__ite._M_cur)
-	  __throw_out_of_range(__N("unordered_map::at"));
+	  __throw_out_of_range(__eqt_excstr_throwing_bits_hashtable_policy_h0);
 	return __ite->second;
       }
     };

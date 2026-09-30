@@ -37,6 +37,17 @@
 #include <bits/cpp_type_traits.h>
 #include <ext/type_traits.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_ext_concurrence_h0, "__gnu_cxx::__concurrence_lock_error");
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_ext_concurrence_h1, "__gnu_cxx::__concurrence_unlock_error");
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_ext_concurrence_h2, "__gnu_cxx::__concurrence_broadcast_error");
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_ext_concurrence_h3, "__gnu_cxx::__concurrence_wait_error");
+
+} // namespace
+
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -66,7 +77,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   public:
     virtual char const*
     what() const throw()
-    { return "__gnu_cxx::__concurrence_lock_error"; }
+    { return __eqt_excstr_exc_what_ext_concurrence_h0; }
   };
 
   class __concurrence_unlock_error : public std::exception
@@ -74,7 +85,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   public:
     virtual char const*
     what() const throw()
-    { return "__gnu_cxx::__concurrence_unlock_error"; }
+    { return __eqt_excstr_exc_what_ext_concurrence_h1; }
   };
 
   class __concurrence_broadcast_error : public std::exception
@@ -82,7 +93,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   public:
     virtual char const*
     what() const throw()
-    { return "__gnu_cxx::__concurrence_broadcast_error"; }
+    { return __eqt_excstr_exc_what_ext_concurrence_h2; }
   };
 
   class __concurrence_wait_error : public std::exception
@@ -90,7 +101,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   public:
     virtual char const*
     what() const throw()
-    { return "__gnu_cxx::__concurrence_wait_error"; }
+    { return __eqt_excstr_exc_what_ext_concurrence_h3; }
   };
 
   // Substitute for concurrence_error object in the case of -fno-exceptions.

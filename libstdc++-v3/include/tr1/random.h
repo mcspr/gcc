@@ -33,6 +33,15 @@
 
 #pragma GCC system_header
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_random_h0, __N("random_device::random_device(const std::string&)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_random_h1, __N("random_device::_M_strtoul(const std::string&)"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -1436,8 +1445,7 @@ namespace tr1
     {
       if ((__token != "/dev/urandom" && __token != "/dev/random")
 	  || !(_M_file = std::fopen(__token.c_str(), "rb")))
-	std::__throw_runtime_error(__N("random_device::"
-				       "random_device(const std::string&)"));
+	std::__throw_runtime_error(__eqt_excstr_throwing_tr1_random_h0);
     }
 
     ~random_device()
@@ -1460,8 +1468,7 @@ namespace tr1
 	  char* __endptr;
 	  __ret = std::strtoul(__nptr, &__endptr, 0);
 	  if (*__nptr == '\0' || *__endptr != '\0')
-	    std::__throw_runtime_error(__N("random_device::_M_strtoul"
-					   "(const std::string&)"));
+	    std::__throw_runtime_error(__eqt_excstr_throwing_tr1_random_h1);
 	}
       return __ret;
     }

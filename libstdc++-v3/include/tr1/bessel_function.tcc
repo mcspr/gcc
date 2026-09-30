@@ -52,6 +52,20 @@
 
 #include <tr1/special_function_util.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_bessel_function_tcc0, __N("Argument x too large in __bessel_jn; try asymptotic expansion."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_bessel_function_tcc1, __N("Bessel y series failed to converge in __bessel_jn."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_bessel_function_tcc2, __N("Lentz's method failed in __bessel_jn."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_bessel_function_tcc3, __N("Bad argument in __cyl_bessel_j."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_bessel_function_tcc4, __N("Bad argument in __cyl_neumann_n."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_bessel_function_tcc5, __N("Bad argument in __sph_bessel."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_bessel_function_tcc6, __N("Bad argument in __sph_neumann."));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -204,8 +218,7 @@ namespace tr1
             break;
         }
       if (__i > __max_iter)
-        std::__throw_runtime_error(__N("Argument x too large in __bessel_jn; "
-                                       "try asymptotic expansion."));
+        std::__throw_runtime_error(__eqt_excstr_throwing_tr1_bessel_function_tcc0);
       _Tp __Jnul = __isign * __fp_min;
       _Tp __Jpnul = __h * __Jnul;
       _Tp __Jnul1 = __Jnul;
@@ -261,8 +274,7 @@ namespace tr1
                 break;
             }
           if ( __i > __max_iter )
-            std::__throw_runtime_error(__N("Bessel y series failed to converge "
-                                           "in __bessel_jn."));
+            std::__throw_runtime_error(__eqt_excstr_throwing_tr1_bessel_function_tcc1);
           __Nmu = -__sum;
           __Nnu1 = -__sum1 * __xi2;
           __Npmu = __mu * __xi * __Nmu - __Nnu1;
@@ -312,8 +324,7 @@ namespace tr1
                 break;
           }
           if (__i > __max_iter)
-            std::__throw_runtime_error(__N("Lentz's method failed "
-                                           "in __bessel_jn."));
+            std::__throw_runtime_error(__eqt_excstr_throwing_tr1_bessel_function_tcc2);
           const _Tp __gam = (__p - __f) / __q;
           __Jmu = std::sqrt(__w / ((__p - __f) * __gam + __q));
 #if _GLIBCXX_USE_C99_MATH_TR1
@@ -492,8 +503,7 @@ namespace tr1
     __cyl_bessel_j(_Tp __nu, _Tp __x)
     {
       if (__nu < _Tp(0) || __x < _Tp(0))
-        std::__throw_domain_error(__N("Bad argument "
-                                      "in __cyl_bessel_j."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_bessel_function_tcc3);
       else if (__isnan(__nu) || __isnan(__x))
         return std::numeric_limits<_Tp>::quiet_NaN();
       else if (__x * __x < _Tp(10) * (__nu + _Tp(1)))
@@ -534,8 +544,7 @@ namespace tr1
     __cyl_neumann_n(_Tp __nu, _Tp __x)
     {
       if (__nu < _Tp(0) || __x < _Tp(0))
-        std::__throw_domain_error(__N("Bad argument "
-                                      "in __cyl_neumann_n."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_bessel_function_tcc4);
       else if (__isnan(__nu) || __isnan(__x))
         return std::numeric_limits<_Tp>::quiet_NaN();
       else if (__x > _Tp(1000))
@@ -606,8 +615,7 @@ namespace tr1
     __sph_bessel(unsigned int __n, _Tp __x)
     {
       if (__x < _Tp(0))
-        std::__throw_domain_error(__N("Bad argument "
-                                      "in __sph_bessel."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_bessel_function_tcc5);
       else if (__isnan(__x))
         return std::numeric_limits<_Tp>::quiet_NaN();
       else if (__x == _Tp(0))
@@ -644,8 +652,7 @@ namespace tr1
     __sph_neumann(unsigned int __n, _Tp __x)
     {
       if (__x < _Tp(0))
-        std::__throw_domain_error(__N("Bad argument "
-                                      "in __sph_neumann."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_bessel_function_tcc6);
       else if (__isnan(__x))
         return std::numeric_limits<_Tp>::quiet_NaN();
       else if (__x == _Tp(0))

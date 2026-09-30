@@ -29,6 +29,15 @@
 #include <ios>
 #include <limits>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ios_cc0, __N("ios_base::_M_grow_words is not valid"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ios_cc1, __N("ios_base::_M_grow_words allocation failed"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -118,7 +127,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _Words* __words = _M_local_word;
     const char* __error = nullptr;
     if ((unsigned)__ix >= (unsigned)numeric_limits<int>::max())
-      __error = __N("ios_base::_M_grow_words is not valid");
+      __error = __eqt_excstr_throwing_ios_cc0;
     else if (__ix > _S_local_word_size - 1)
       {
 	__newsize = __ix + 1;
@@ -130,7 +139,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	__catch(const std::bad_alloc&)
 	  { __words = nullptr; }
 	if (!__words)
-	  __error = __N("ios_base::_M_grow_words allocation failed");
+	  __error = __eqt_excstr_throwing_ios_cc1;
 	else
 	  {
 	    for (int __i = 0; __i < _M_word_size; __i++)

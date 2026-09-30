@@ -35,6 +35,14 @@
 
 #include <bits/stl_algobase.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_array0, __N("array::at"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -137,7 +145,7 @@ namespace tr1
       at(size_type __n)
       {
 	if (__n >= _Nm)
-	  std::__throw_out_of_range(__N("array::at"));
+	  std::__throw_out_of_range(__eqt_excstr_throwing_tr1_array0);
 	return _M_instance[__n];
       }
 
@@ -145,7 +153,7 @@ namespace tr1
       at(size_type __n) const
       {
 	if (__n >= _Nm)
-	  std::__throw_out_of_range(__N("array::at"));
+	  std::__throw_out_of_range(__eqt_excstr_throwing_tr1_array0);
 	return _M_instance[__n];
       }
 

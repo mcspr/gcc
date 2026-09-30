@@ -45,6 +45,16 @@
 #include <bits/ranges_base.h> // enable_borrowed_range, enable_view
 #include <experimental/bits/lfts_config.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_string_view0, __N("basic_string_view::at: __pos (which is %zu) >= this->size() (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_string_view1, __N("basic_string_view::copy: __pos (which is %zu) > this->size() (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_string_view2, __N("basic_string_view::substr: __pos (which is %zu) > this->size() (which is %zu)"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -191,9 +201,7 @@ inline namespace fundamentals_v1
       {
 	return __pos < this->_M_len
 	     ? *(this->_M_str + __pos)
-	     : (__throw_out_of_range_fmt(__N("basic_string_view::at: __pos "
-					     "(which is %zu) >= this->size() "
-					     "(which is %zu)"),
+	     : (__throw_out_of_range_fmt(__eqt_excstr_throwing_experimental_string_view0,
 					 __pos, this->size()),
 		*this->_M_str);
       }
@@ -259,9 +267,7 @@ inline namespace fundamentals_v1
       {
 	__glibcxx_requires_string_len(__str, __n);
 	if (__pos > this->_M_len)
-	  __throw_out_of_range_fmt(__N("basic_string_view::copy: __pos "
-				       "(which is %zu) > this->size() "
-				       "(which is %zu)"),
+	  __throw_out_of_range_fmt(__eqt_excstr_throwing_experimental_string_view1,
 				   __pos, this->size());
 	size_type __rlen{std::min(__n, size_type{this->_M_len  - __pos})};
 	for (auto __begin = this->_M_str + __pos,
@@ -279,9 +285,7 @@ inline namespace fundamentals_v1
 	return __pos <= this->_M_len
 	     ? basic_string_view{this->_M_str + __pos,
 				std::min(__n, size_type{this->_M_len  - __pos})}
-	     : (__throw_out_of_range_fmt(__N("basic_string_view::substr: __pos "
-					     "(which is %zu) > this->size() "
-					     "(which is %zu)"),
+	     : (__throw_out_of_range_fmt(__eqt_excstr_throwing_experimental_string_view2,
 				     __pos, this->size()), basic_string_view{});
       }
 

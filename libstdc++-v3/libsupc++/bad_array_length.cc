@@ -23,6 +23,14 @@
 
 #include <new>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_bad_array_length_cc0, "std::bad_array_length");
+
+} // namespace
+
 namespace std 
 {
 // From N3639.  This was voted in and then back out of C++14, and is now
@@ -44,7 +52,7 @@ bad_array_length::~bad_array_length() _GLIBCXX_USE_NOEXCEPT { }
 
 const char*
 bad_array_length::what() const _GLIBCXX_USE_NOEXCEPT
-{ return "std::bad_array_length"; }
+{ return __eqt_excstr_exc_what_bad_array_length_cc0; }
 
 } // namespace std
 

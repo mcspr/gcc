@@ -42,6 +42,25 @@
 #ifndef _GLIBCXX_TR1_ELL_INTEGRAL_TCC
 #define _GLIBCXX_TR1_ELL_INTEGRAL_TCC 1
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc0, __N("Argument less than zero in __ellint_rf."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc1, __N("Argument too small in __ellint_rf"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc2, __N("Bad argument in __ellint_1."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc3, __N("Argument less than zero in __ellint_rd."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc4, __N("Argument too small in __ellint_rd."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc5, __N("Bad argument in __comp_ellint_2."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc6, __N("Bad argument in __ellint_2."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc7, __N("Argument less than zero in __ellint_rc."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc8, __N("Argument less than zero in __ellint_rj."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc9, __N("Argument too small in __ellint_rj"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc10, __N("Bad argument in __comp_ellint_3."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_ell_integral_tcc11, __N("Bad argument in __ellint_3."));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -81,11 +100,10 @@ namespace tr1
       const _Tp __lolim = _Tp(5) * __min;
 
       if (__x < _Tp(0) || __y < _Tp(0) || __z < _Tp(0))
-        std::__throw_domain_error(__N("Argument less than zero "
-                                      "in __ellint_rf."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc0);
       else if (__x + __y < __lolim || __x + __z < __lolim
             || __y + __z < __lolim)
-        std::__throw_domain_error(__N("Argument too small in __ellint_rf"));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc1);
       else
         {
           const _Tp __c0 = _Tp(1) / _Tp(4);
@@ -224,7 +242,7 @@ namespace tr1
       if (__isnan(__k) || __isnan(__phi))
         return std::numeric_limits<_Tp>::quiet_NaN();
       else if (std::abs(__k) > _Tp(1))
-        std::__throw_domain_error(__N("Bad argument in __ellint_1."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc2);
       else
         {
           //  Reduce phi to -pi/2 < phi < +pi/2.
@@ -321,11 +339,9 @@ namespace tr1
       const _Tp __lolim = _Tp(2) / std::pow(__max, _Tp(2) / _Tp(3));
 
       if (__x < _Tp(0) || __y < _Tp(0))
-        std::__throw_domain_error(__N("Argument less than zero "
-                                      "in __ellint_rd."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc3);
       else if (__x + __y < __lolim || __z < __lolim)
-        std::__throw_domain_error(__N("Argument too small "
-                                      "in __ellint_rd."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc4);
       else
         {
           const _Tp __c0 = _Tp(1) / _Tp(4);
@@ -406,7 +422,7 @@ namespace tr1
       else if (std::abs(__k) == 1)
         return _Tp(1);
       else if (std::abs(__k) > _Tp(1))
-        std::__throw_domain_error(__N("Bad argument in __comp_ellint_2."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc5);
       else
         {
           const _Tp __kk = __k * __k;
@@ -438,7 +454,7 @@ namespace tr1
       if (__isnan(__k) || __isnan(__phi))
         return std::numeric_limits<_Tp>::quiet_NaN();
       else if (std::abs(__k) > _Tp(1))
-        std::__throw_domain_error(__N("Bad argument in __ellint_2."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc6);
       else
         {
           //  Reduce phi to -pi/2 < phi < +pi/2.
@@ -497,8 +513,7 @@ namespace tr1
       const _Tp __lolim = _Tp(5) * __min;
 
       if (__x < _Tp(0) || __y < _Tp(0) || __x + __y < __lolim)
-        std::__throw_domain_error(__N("Argument less than zero "
-                                      "in __ellint_rc."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc7);
       else
         {
           const _Tp __c0 = _Tp(1) / _Tp(4);
@@ -566,12 +581,10 @@ namespace tr1
       const _Tp __lolim = std::pow(_Tp(5) * __min, _Tp(1)/_Tp(3));
 
       if (__x < _Tp(0) || __y < _Tp(0) || __z < _Tp(0))
-        std::__throw_domain_error(__N("Argument less than zero "
-                                      "in __ellint_rj."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc8);
       else if (__x + __y < __lolim || __x + __z < __lolim
             || __y + __z < __lolim || __p < __lolim)
-        std::__throw_domain_error(__N("Argument too small "
-                                      "in __ellint_rj"));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc9);
       else
         {
           const _Tp __c0 = _Tp(1) / _Tp(4);
@@ -668,7 +681,7 @@ namespace tr1
       else if (__nu == _Tp(1))
         return std::numeric_limits<_Tp>::infinity();
       else if (std::abs(__k) > _Tp(1))
-        std::__throw_domain_error(__N("Bad argument in __comp_ellint_3."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc10);
       else
         {
           const _Tp __kk = __k * __k;
@@ -706,7 +719,7 @@ namespace tr1
       if (__isnan(__k) || __isnan(__nu) || __isnan(__phi))
         return std::numeric_limits<_Tp>::quiet_NaN();
       else if (std::abs(__k) > _Tp(1))
-        std::__throw_domain_error(__N("Bad argument in __ellint_3."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_ell_integral_tcc11);
       else
         {
           //  Reduce phi to -pi/2 < phi < +pi/2.

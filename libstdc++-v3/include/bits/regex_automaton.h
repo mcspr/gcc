@@ -33,6 +33,14 @@
 #define _GLIBCXX_REGEX_STATE_LIMIT 100000
 #endif
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_automaton_h0, "Number of NFA states exceeds limit. Please use shorter regex string, or use smaller brace expression, or make _GLIBCXX_REGEX_STATE_LIMIT larger.");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -329,9 +337,7 @@ namespace __detail
 	if (this->size() > _GLIBCXX_REGEX_STATE_LIMIT)
 	  __throw_regex_error(
 	    regex_constants::error_space,
-	    "Number of NFA states exceeds limit. Please use shorter regex "
-	    "string, or use smaller brace expression, or make "
-	    "_GLIBCXX_REGEX_STATE_LIMIT larger.");
+	    __eqt_excstr_throwing_bits_regex_automaton_h0);
 	return this->size() - 1;
       }
 

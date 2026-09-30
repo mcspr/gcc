@@ -41,6 +41,27 @@
 
 #include <bits/streambuf_iterator.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h0, "format error: no timezone available for %Z or %z");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h1, "format error: chrono-format-spec not valid for chrono::duration");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h2, "format error: chrono-format-spec not valid for argument type");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h3, "chrono format error: '{' in chrono-specs");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h4, "chrono format error: no '%' at start of chrono-specs");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h5, "chrono format error: invalid  specifier in chrono-specs");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h6, "chrono format error: invalid  modifier in chrono-specs");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h7, "chrono format error: format argument does not contain the information required by the chrono-specs");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h8, "chrono format error: unescaped '%' in chrono-specs");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h9, "chrono format error: argument is not a duration");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h10, "format error: invalid weekday");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h11, "format error: invalid month");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h12, "format error: argument is not a duration");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_chrono_io_h13, "format error: invalid precision for duration");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -192,19 +213,17 @@ namespace __format
   [[noreturn,__gnu__::__always_inline__]]
   inline void
   __no_timezone_available()
-  { __throw_format_error("format error: no timezone available for %Z or %z"); }
+  { __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h0); }
 
   [[noreturn,__gnu__::__always_inline__]]
   inline void
   __not_valid_for_duration()
-  { __throw_format_error("format error: chrono-format-spec not valid for "
-			 "chrono::duration"); }
+  { __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h1); }
 
   [[noreturn,__gnu__::__always_inline__]]
   inline void
   __invalid_chrono_spec()
-  { __throw_format_error("format error: chrono-format-spec not valid for "
-			 "argument type"); }
+  { __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h2); }
 
   template<typename _CharT>
     struct _ChronoSpec : _Spec<_CharT>
@@ -294,7 +313,7 @@ namespace __format
 		__last = __first + __end;
 	      }
 	    if (__str.find('{') != __str.npos)
-	      __throw_format_error("chrono format error: '{' in chrono-specs");
+	      __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h3);
 	  }
 
 	  // Parse chrono-specs in [first,last), checking each conversion-spec
@@ -303,8 +322,7 @@ namespace __format
 
 	  const auto __chrono_specs = __first++; // Skip leading '%'
 	  if (*__chrono_specs != '%')
-	    __throw_format_error("chrono format error: no '%' at start of "
-				     "chrono-specs");
+	    __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h4);
 
 	  _CharT __mod{};
 	  bool __conv = true;
@@ -427,20 +445,16 @@ namespace __format
 		  __mod = __c;
 		  continue;
 		default:
-		  __throw_format_error("chrono format error: invalid "
-				       " specifier in chrono-specs");
+		  __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h5);
 		}
 
 	      if ((__mod == 'E' && !(__allowed_mods & _Mod_E))
 		    || (__mod == 'O' && !(__allowed_mods & _Mod_O)))
-		__throw_format_error("chrono format error: invalid "
-				     " modifier in chrono-specs");
+		__throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h6);
 	      __mod = _CharT();
 
 	      if ((__parts & __needed) != __needed)
-		__throw_format_error("chrono format error: format argument "
-				     "does not contain the information "
-				     "required by the chrono-specs");
+		__throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h7);
 
 	      // Scan for next '%', ignoring literal-chars before it.
 	      size_t __pos = __string_view(__first, __last - __first).find('%');
@@ -460,8 +474,7 @@ namespace __format
 
 	  // Check for a '%' conversion-spec without a type.
 	  if (__conv || __mod != _CharT())
-	    __throw_format_error("chrono format error: unescaped '%' in "
-				 "chrono-specs");
+	    __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h8);
 
 	  _M_spec = __spec;
 	  _M_spec._M_chrono_specs
@@ -585,8 +598,7 @@ namespace __format
 		    __out = std::format_to(__print_sign(), _S_empty_spec,
 					   __t.count());
 		  else
-		    __throw_format_error("chrono format error: argument is "
-					 "not a duration");
+		    __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h9);
 		  break;
 		case 'r':
 		  __out = _M_r(__t, __print_sign(), __fc);
@@ -774,7 +786,7 @@ namespace __format
 	  // %A Locale's full weekday name.
 	  chrono::weekday __wd = _S_weekday(__t);
 	  if (!__wd.ok())
-	    __throw_format_error("format error: invalid weekday");
+	    __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h10);
 
 	  locale __loc = _M_locale(__ctx);
 	  const auto& __tp = use_facet<__timepunct<_CharT>>(__loc);
@@ -796,7 +808,7 @@ namespace __format
 	  // %B Locale's full month name.
 	  chrono::month __m = _S_month(__t);
 	  if (!__m.ok())
-	    __throw_format_error("format error: invalid month");
+	    __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h11);
 	  locale __loc = _M_locale(__ctx);
 	  const auto& __tp = use_facet<__timepunct<_CharT>>(__loc);
 	  const _CharT* __months[12];
@@ -1095,7 +1107,7 @@ namespace __format
 	{
 	  // %q The duration's unit suffix
 	  if constexpr (!chrono::__is_duration_v<_Tp>)
-	    __throw_format_error("format error: argument is not a duration");
+	    __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h12);
 	  else
 	    {
 	      namespace __d = chrono::__detail;
@@ -1623,7 +1635,7 @@ namespace __format
 	auto __it = _M_f._M_parse(__pc, _Duration|_TimeOfDay);
 	if constexpr (!is_floating_point_v<_Rep>)
 	  if (_M_f._M_spec._M_prec_kind != __format::_WP_none)
-	    __throw_format_error("format error: invalid precision for duration");
+	    __throw_format_error(__eqt_excstr_throwing_bits_chrono_io_h13);
 	return __it;
       }
 

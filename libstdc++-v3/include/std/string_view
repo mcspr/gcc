@@ -61,6 +61,15 @@
 # include <bits/ostream_insert.h>
 #endif
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_string_view0, __N("%s: __pos (which is %zu) > __size (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_string_view1, __N("basic_string_view::at: __pos (which is %zu) >= this->size() (which is %zu)"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -70,8 +79,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   __sv_check(size_t __size, size_t __pos, const char* __s)
   {
     if (__pos > __size)
-      __throw_out_of_range_fmt(__N("%s: __pos (which is %zu) > __size "
-				   "(which is %zu)"), __s, __pos, __size);
+      __throw_out_of_range_fmt(__eqt_excstr_throwing_std_string_view0, __s, __pos, __size);
     return __pos;
   }
 
@@ -262,9 +270,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       at(size_type __pos) const
       {
 	if (__pos >= _M_len)
-	  __throw_out_of_range_fmt(__N("basic_string_view::at: __pos "
-				       "(which is %zu) >= this->size() "
-				       "(which is %zu)"), __pos, this->size());
+	  __throw_out_of_range_fmt(__eqt_excstr_throwing_std_string_view1, __pos, this->size());
 	return *(this->_M_str + __pos);
       }
 

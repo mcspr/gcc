@@ -43,6 +43,15 @@
 # error This file should not be compiled for this configuration.
 #endif
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_cxx11_shim_facets_cc0, "uninitialized __any_string");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_cxx11_shim_facets_cc1, "cannot create shim for unknown locale::facet");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -151,7 +160,7 @@ namespace __facet_shims
       operator basic_string<C>() const
       {
 	if (!_M_dtor)
-	  __throw_logic_error("uninitialized __any_string");
+	  __throw_logic_error(__eqt_excstr_throwing_cxx11_shim_facets_cc0);
 	return basic_string<C>(static_cast<const C*>(_M_str), _M_str._M_len);
       }
   };
@@ -838,7 +847,7 @@ namespace __facet_shims
     if (which == &std::messages<wchar_t>::id)
       return new messages_shim<wchar_t>{this};
 #endif
-    __throw_logic_error("cannot create shim for unknown locale::facet");
+    __throw_logic_error(__eqt_excstr_throwing_cxx11_shim_facets_cc1);
   }
 
 _GLIBCXX_END_NAMESPACE_VERSION

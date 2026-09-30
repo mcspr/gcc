@@ -44,6 +44,14 @@
 #include <bits/move.h>
 #include <experimental/bits/lfts_config.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_optional0, "Attempt to access value of a disengaged optional object");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -674,8 +682,7 @@ inline namespace fundamentals_v1
       {
 	if (this->_M_is_engaged())
 	  return this->_M_get();
-	__throw_bad_optional_access("Attempt to access value of a "
-				    "disengaged optional object");
+	__throw_bad_optional_access(__eqt_excstr_throwing_experimental_optional0);
       }
 
       constexpr _Tp&
@@ -683,8 +690,7 @@ inline namespace fundamentals_v1
       {
 	if (this->_M_is_engaged())
 	  return this->_M_get();
-	__throw_bad_optional_access("Attempt to access value of a "
-				    "disengaged optional object");
+	__throw_bad_optional_access(__eqt_excstr_throwing_experimental_optional0);
       }
 
       constexpr _Tp&&
@@ -692,8 +698,7 @@ inline namespace fundamentals_v1
       {
 	if (this->_M_is_engaged())
 	  return std::move(this->_M_get());
-	__throw_bad_optional_access("Attempt to access value of a "
-				    "disengaged optional object");
+	__throw_bad_optional_access(__eqt_excstr_throwing_experimental_optional0);
       }
 
       constexpr const _Tp&&
@@ -701,8 +706,7 @@ inline namespace fundamentals_v1
       {
 	if (this->_M_is_engaged())
 	  return std::move(this->_M_get());
-	__throw_bad_optional_access("Attempt to access value of a "
-				    "disengaged optional object");
+	__throw_bad_optional_access(__eqt_excstr_throwing_experimental_optional0);
       }
 
       template<typename _Up>

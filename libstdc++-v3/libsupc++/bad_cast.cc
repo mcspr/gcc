@@ -23,6 +23,14 @@
 
 #include <typeinfo>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_bad_cast_cc0, "std::bad_cast");
+
+} // namespace
+
 namespace std {
 
 bad_cast::~bad_cast() _GLIBCXX_USE_NOEXCEPT { }
@@ -30,7 +38,7 @@ bad_cast::~bad_cast() _GLIBCXX_USE_NOEXCEPT { }
 const char* 
 bad_cast::what() const _GLIBCXX_USE_NOEXCEPT
 {
-  return "std::bad_cast";
+  return __eqt_excstr_exc_what_bad_cast_cc0;
 }
 
 } // namespace std

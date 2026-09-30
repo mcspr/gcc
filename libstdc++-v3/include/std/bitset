@@ -68,6 +68,24 @@
 
 #define _GLIBCXX_BITSET_BITS_PER_ULL (__CHAR_BIT__ * __SIZEOF_LONG_LONG__)
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_bitset0, __N("_Base_bitset::_M_do_to_ulong"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_bitset1, __N("_Base_bitset::_M_do_to_ullong"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_bitset2, __N("_Base_bitset::_M_getword"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_bitset3, __N("bitset::bitset: __position (which is %zu) > __s.size() (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_bitset4, __N("%s: __position (which is %zu) >= _Nb (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_bitset5, __N("bitset::bitset(const _CharT*, ...)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_bitset6, __N("bitset::set"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_bitset7, __N("bitset::reset"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_bitset8, __N("bitset::flip"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_bitset9, __N("bitset::test"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_bitset10, __N("bitset::_M_copy_from_ptr"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
@@ -318,7 +336,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     {
       for (size_t __i = 1; __i < _Nw; ++__i)
 	if (_M_w[__i])
-	  __throw_overflow_error(__N("_Base_bitset::_M_do_to_ulong"));
+	  __throw_overflow_error(__eqt_excstr_throwing_std_bitset0);
       return _M_w[0];
     }
 
@@ -332,7 +350,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 #else
       for (size_t __i = 2; __i < _Nw; ++__i)
 	if (_M_w[__i])
-	  __throw_overflow_error(__N("_Base_bitset::_M_do_to_ullong"));
+	  __throw_overflow_error(__eqt_excstr_throwing_std_bitset1);
 
       return _M_w[0] + (static_cast<unsigned long long>(_M_w[1])
 			  << _GLIBCXX_BITSET_BITS_PER_WORD);
@@ -584,7 +602,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       __attribute__((__noreturn__))
       _WordT&
       _M_getword(size_t) _GLIBCXX_NOEXCEPT
-      { __throw_out_of_range(__N("_Base_bitset::_M_getword")); }
+      { __throw_out_of_range(__eqt_excstr_throwing_std_bitset2); }
 
       _GLIBCXX_CONSTEXPR _WordT
       _M_getword(size_t) const _GLIBCXX_NOEXCEPT
@@ -816,9 +834,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 				size_t __position) const
       {
 	if (__position > __s.size())
-	  __throw_out_of_range_fmt(__N("bitset::bitset: __position "
-				       "(which is %zu) > __s.size() "
-				       "(which is %zu)"),
+	  __throw_out_of_range_fmt(__eqt_excstr_throwing_std_bitset3,
 				   __position, __s.size());
       }
 #endif // HOSTED
@@ -827,8 +843,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       void _M_check(size_t __position, const char *__s) const
       {
 	if (__position >= _Nb)
-	  __throw_out_of_range_fmt(__N("%s: __position (which is %zu) "
-				       ">= _Nb (which is %zu)"),
+	  __throw_out_of_range_fmt(__eqt_excstr_throwing_std_bitset4,
 				   __s, __position, _Nb);
       }
 
@@ -1025,7 +1040,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
         {
 #if _GLIBCXX_HOSTED
 	  if (!__str)
-	    __throw_logic_error(__N("bitset::bitset(const _CharT*, ...)"));
+	    __throw_logic_error(__eqt_excstr_throwing_std_bitset5);
 #endif
 	  using _Traits = typename __bitset::__string<_CharT>::traits_type;
 
@@ -1171,7 +1186,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       bitset<_Nb>&
       set(size_t __position, bool __val = true)
       {
-	this->_M_check(__position, __N("bitset::set"));
+	this->_M_check(__position, __eqt_excstr_throwing_std_bitset6);
 	return _Unchecked_set(__position, __val);
       }
 
@@ -1197,7 +1212,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       bitset<_Nb>&
       reset(size_t __position)
       {
-	this->_M_check(__position, __N("bitset::reset"));
+	this->_M_check(__position, __eqt_excstr_throwing_std_bitset7);
 	return _Unchecked_reset(__position);
       }
 
@@ -1222,7 +1237,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       bitset<_Nb>&
       flip(size_t __position)
       {
-	this->_M_check(__position, __N("bitset::flip"));
+	this->_M_check(__position, __eqt_excstr_throwing_std_bitset8);
 	return _Unchecked_flip(__position);
       }
 
@@ -1396,7 +1411,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       bool
       test(size_t __position) const
       {
-	this->_M_check(__position, __N("bitset::test"));
+	this->_M_check(__position, __eqt_excstr_throwing_std_bitset9);
 	return _Unchecked_test(__position);
       }
 
@@ -1518,7 +1533,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	    else if (_Traits::eq(__c, __one))
 	      _Unchecked_set(__i - 1);
 	    else
-	      __throw_invalid_argument(__N("bitset::_M_copy_from_ptr"));
+	      __throw_invalid_argument(__eqt_excstr_throwing_std_bitset10);
 	  }
       }
 

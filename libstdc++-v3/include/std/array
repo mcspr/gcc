@@ -51,6 +51,14 @@
 #define __glibcxx_want_to_array
 #include <bits/version.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_array0, __N("array::at: __n (which is %zu) >= _Nm (which is %zu)"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -223,8 +231,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       at(size_type __n)
       {
 	if (__n >= _Nm)
-	  std::__throw_out_of_range_fmt(__N("array::at: __n (which is %zu) "
-					    ">= _Nm (which is %zu)"),
+	  std::__throw_out_of_range_fmt(__eqt_excstr_throwing_std_array0,
 					__n, _Nm);
 	return _M_elems[__n];
       }
@@ -235,8 +242,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	// Result of conditional expression must be an lvalue so use
 	// boolean ? lvalue : (throw-expr, lvalue)
 	return __n < _Nm ? _M_elems[__n]
-	  : (std::__throw_out_of_range_fmt(__N("array::at: __n (which is %zu) "
-					       ">= _Nm (which is %zu)"),
+	  : (std::__throw_out_of_range_fmt(__eqt_excstr_throwing_std_array0,
 					   __n, _Nm),
 	     _M_elems[__n]);
       }

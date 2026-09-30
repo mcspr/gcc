@@ -25,6 +25,14 @@
 #include <functional>
 #include <bits/functexcept.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_functional_cc0, "bad_function_call");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -37,7 +45,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   const char*
   bad_function_call::what() const noexcept
-  { return "bad_function_call"; }
+  { return __eqt_excstr_exc_what_functional_cc0; }
 
 _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace

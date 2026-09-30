@@ -48,6 +48,18 @@
 
 #include <tr1/special_function_util.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_modified_bessel_func_tcc0, __N("Argument x too large in __bessel_ik; try asymptotic expansion."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_modified_bessel_func_tcc1, __N("Bessel k series failed to converge in __bessel_ik."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_modified_bessel_func_tcc2, __N("Steed's method failed in __bessel_ik."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_modified_bessel_func_tcc3, __N("Bad argument in __cyl_bessel_i."));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_modified_bessel_func_tcc4, __N("Bad argument in __cyl_bessel_k."));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -136,9 +148,7 @@ namespace tr1
             break;
         }
       if (__i > __max_iter)
-        std::__throw_runtime_error(__N("Argument x too large "
-                                       "in __bessel_ik; "
-                                       "try asymptotic expansion."));
+        std::__throw_runtime_error(__eqt_excstr_throwing_tr1_modified_bessel_func_tcc0);
       _Tp __Inul = __fp_min;
       _Tp __Ipnul = __h * __Inul;
       _Tp __Inul1 = __Inul;
@@ -189,8 +199,7 @@ namespace tr1
                 break;
             }
           if (__i > __max_iter)
-            std::__throw_runtime_error(__N("Bessel k series failed to converge "
-                                           "in __bessel_ik."));
+            std::__throw_runtime_error(__eqt_excstr_throwing_tr1_modified_bessel_func_tcc1);
           __Kmu = __sum;
           __Knu1 = __sum1 * __xi2;
         }
@@ -225,8 +234,7 @@ namespace tr1
                 break;
             }
           if (__i > __max_iter)
-            std::__throw_runtime_error(__N("Steed's method failed "
-                                           "in __bessel_ik."));
+            std::__throw_runtime_error(__eqt_excstr_throwing_tr1_modified_bessel_func_tcc2);
           __h = __a1 * __h;
           __Kmu = std::sqrt(__numeric_constants<_Tp>::__pi() / (_Tp(2) * __x))
                 * std::exp(-__x) / __s;
@@ -269,8 +277,7 @@ namespace tr1
     __cyl_bessel_i(_Tp __nu, _Tp __x)
     {
       if (__nu < _Tp(0) || __x < _Tp(0))
-        std::__throw_domain_error(__N("Bad argument "
-                                      "in __cyl_bessel_i."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_modified_bessel_func_tcc3);
       else if (__isnan(__nu) || __isnan(__x))
         return std::numeric_limits<_Tp>::quiet_NaN();
       else if (__x * __x < _Tp(10) * (__nu + _Tp(1)))
@@ -305,8 +312,7 @@ namespace tr1
     __cyl_bessel_k(_Tp __nu, _Tp __x)
     {
       if (__nu < _Tp(0) || __x < _Tp(0))
-        std::__throw_domain_error(__N("Bad argument "
-                                      "in __cyl_bessel_k."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_modified_bessel_func_tcc4);
       else if (__isnan(__nu) || __isnan(__x))
         return std::numeric_limits<_Tp>::quiet_NaN();
       else

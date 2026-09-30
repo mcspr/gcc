@@ -44,6 +44,14 @@
 #include <experimental/string_view>
 #include <experimental/bits/net.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_experimental_buffer0, "dynamic_vector_buffer::prepare");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -518,7 +526,7 @@ inline namespace v1
       prepare(size_t __n)
       {
 	if ((_M_size + __n) > _M_max_size)
-	  __throw_length_error("dynamic_vector_buffer::prepare");
+	  __throw_length_error(__eqt_excstr_throwing_experimental_buffer0);
 
 	_M_seq.resize(_M_size + __n);
 	return buffer(net::buffer(_M_seq) + _M_size, __n);

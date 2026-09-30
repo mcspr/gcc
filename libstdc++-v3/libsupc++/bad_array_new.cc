@@ -23,6 +23,14 @@
 
 #include <new>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_bad_array_new_cc0, "std::bad_array_new_length");
+
+} // namespace
+
 namespace std 
 {
 
@@ -30,6 +38,6 @@ bad_array_new_length::~bad_array_new_length() _GLIBCXX_USE_NOEXCEPT { }
 
 const char*
 bad_array_new_length::what() const _GLIBCXX_USE_NOEXCEPT
-{ return "std::bad_array_new_length"; }
+{ return __eqt_excstr_exc_what_bad_array_new_cc0; }
 
 } // namespace std

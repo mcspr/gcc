@@ -46,6 +46,17 @@
 //
 // awk: http://pubs.opengroup.org/onlinepubs/000095399/utilities/awk.html
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_scanner_tcc0, "Invalid escape at end of regular expression");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_scanner_tcc1, "Invalid '(?...)' zero-width assertion in regular expression");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_scanner_tcc2, "Incomplete '[[' character class in regular expression");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_scanner_tcc3, "invalid '\\cX' control character in regular expression");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -108,7 +119,7 @@ namespace __detail
 	  if (_M_current == _M_end)
 	    __throw_regex_error(
 	      regex_constants::error_escape,
-	      "Invalid escape at end of regular expression");
+	      __eqt_excstr_throwing_bits_regex_scanner_tcc0);
 
 	  if (!_M_is_basic()
 	      || (*_M_current != '('
@@ -146,8 +157,7 @@ namespace __detail
 		}
 	      else
 		__throw_regex_error(regex_constants::error_paren,
-				    "Invalid '(?...)' zero-width assertion "
-				    "in regular expression");
+				    __eqt_excstr_throwing_bits_regex_scanner_tcc1);
 	    }
 	  else if (_M_flags & regex_constants::nosubs)
 	    _M_token = _S_token_subexpr_no_group_begin;
@@ -218,8 +228,7 @@ namespace __detail
 	{
 	  if (_M_current == _M_end)
 	    __throw_regex_error(regex_constants::error_brack,
-				"Incomplete '[[' character class in "
-				"regular expression");
+				__eqt_excstr_throwing_bits_regex_scanner_tcc2);
 
 	  if (*_M_current == '.')
 	    {
@@ -345,8 +354,7 @@ namespace __detail
 	{
 	  if (_M_current == _M_end)
 	    __throw_regex_error(regex_constants::error_escape,
-				"invalid '\\cX' control character in "
-				"regular expression");
+				__eqt_excstr_throwing_bits_regex_scanner_tcc3);
 	  _M_token = _S_token_ord_char;
 	  _M_value.assign(1, *_M_current++);
 	}

@@ -32,6 +32,14 @@
 
 #pragma GCC system_header
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_basic_ios_tcc0, __N("basic_ios::clear"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -45,7 +53,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       else
 	_M_streambuf_state = __state | badbit;
       if (this->exceptions() & this->rdstate())
-	__throw_ios_failure(__N("basic_ios::clear"));
+	__throw_ios_failure(__eqt_excstr_throwing_bits_basic_ios_tcc0);
     }
 
   template<typename _CharT, typename _Traits>

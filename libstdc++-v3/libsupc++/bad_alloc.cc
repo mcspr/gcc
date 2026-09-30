@@ -25,10 +25,18 @@
 
 #include "new"
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_exc_what_bad_alloc_cc0, "std::bad_alloc");
+
+} // namespace
+
 std::bad_alloc::~bad_alloc() _GLIBCXX_USE_NOEXCEPT { }
 
 const char* 
 std::bad_alloc::what() const _GLIBCXX_USE_NOEXCEPT
 {
-  return "std::bad_alloc";
+  return __eqt_excstr_exc_what_bad_alloc_cc0;
 }

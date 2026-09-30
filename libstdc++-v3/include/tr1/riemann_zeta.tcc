@@ -44,6 +44,14 @@
 
 #include <tr1/special_function_util.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_riemann_zeta_tcc0, __N("Bad argument in zeta sum."));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -81,7 +89,7 @@ namespace tr1
     {
       //  A user shouldn't get to this.
       if (__s < _Tp(1))
-        std::__throw_domain_error(__N("Bad argument in zeta sum."));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_riemann_zeta_tcc0);
 
       const unsigned int max_iter = 10000;
       _Tp __zeta = _Tp(0);

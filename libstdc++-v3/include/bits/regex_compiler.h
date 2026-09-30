@@ -28,6 +28,18 @@
  *  Do not attempt to use it directly. @headername{regex}
  */
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_compiler_h0, "conflicting grammar options");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_compiler_h1, "Invalid collate element.");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_compiler_h2, "Invalid equivalence class.");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_compiler_h3, "Invalid character class.");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_regex_compiler_h4, "Invalid range in bracket expression.");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -194,7 +206,7 @@ namespace __detail
 	    return __f | ECMAScript;
 #pragma GCC diagnostic pop
 	  default:
-	    std::__throw_regex_error(_S_grammar, "conflicting grammar options");
+	    std::__throw_regex_error(_S_grammar, __eqt_excstr_throwing_bits_regex_compiler_h0);
 	  }
       }
 
@@ -461,7 +473,7 @@ namespace __detail
 						 __s.data() + __s.size());
 	if (__st.empty())
 	  __throw_regex_error(regex_constants::error_collate,
-			      "Invalid collate element.");
+			      __eqt_excstr_throwing_bits_regex_compiler_h1);
 	_M_char_set.push_back(_M_translator._M_translate(__st[0]));
 	_GLIBCXX_DEBUG_ONLY(_M_is_ready = false);
 	return __st;
@@ -474,7 +486,7 @@ namespace __detail
 						 __s.data() + __s.size());
 	if (__st.empty())
 	  __throw_regex_error(regex_constants::error_collate,
-			      "Invalid equivalence class.");
+			      __eqt_excstr_throwing_bits_regex_compiler_h2);
 	__st = _M_traits.transform_primary(__st.data(),
 					   __st.data() + __st.size());
 	_M_equiv_set.push_back(__st);
@@ -490,7 +502,7 @@ namespace __detail
 						 __icase);
 	if (__mask == 0)
 	  __throw_regex_error(regex_constants::error_collate,
-			      "Invalid character class.");
+			      __eqt_excstr_throwing_bits_regex_compiler_h3);
 	if (!__neg)
 	  _M_class_set |= __mask;
 	else
@@ -503,7 +515,7 @@ namespace __detail
       {
 	if (__l > __r)
 	  __throw_regex_error(regex_constants::error_range,
-			      "Invalid range in bracket expression.");
+			      __eqt_excstr_throwing_bits_regex_compiler_h4);
 	_M_range_set.push_back(make_pair(_M_translator._M_transform(__l),
 					 _M_translator._M_transform(__r)));
 	_GLIBCXX_DEBUG_ONLY(_M_is_ready = false);

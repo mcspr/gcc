@@ -48,6 +48,15 @@
 
 #include <tr1/special_function_util.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_gamma_tcc0, __N("Argument is nonpositive integer in __log_gamma"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr1_gamma_tcc1, __N("Argument out of range in __psi"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -233,8 +242,7 @@ namespace tr1
           const _Tp __sin_fact
                  = std::abs(std::sin(__numeric_constants<_Tp>::__pi() * __x));
           if (__sin_fact == _Tp(0))
-            std::__throw_domain_error(__N("Argument is nonpositive integer "
-                                          "in __log_gamma"));
+            std::__throw_domain_error(__eqt_excstr_throwing_tr1_gamma_tcc0);
           return __numeric_constants<_Tp>::__lnpi()
                      - std::log(__sin_fact)
                      - __log_gamma_lanczos(_Tp(1) - __x);
@@ -448,8 +456,7 @@ namespace tr1
     __psi(unsigned int __n, _Tp __x)
     {
       if (__x <= _Tp(0))
-        std::__throw_domain_error(__N("Argument out of range "
-                                      "in __psi"));
+        std::__throw_domain_error(__eqt_excstr_throwing_tr1_gamma_tcc1);
       else if (__n == 0)
         return __psi(__x);
       else

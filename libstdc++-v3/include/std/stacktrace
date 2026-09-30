@@ -48,6 +48,16 @@
 #include <bits/stl_tempbuf.h> // __get_temporary_buffer
 #include <ext/numeric_traits.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_stacktrace0, "basic_stacktrace::at: bad frame number");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_stacktrace1, "format error: invalid format-spec for std::stacktrace_entry");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_std_stacktrace2, "format error: invalid format-spec for std::basic_stacktrace");
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -447,7 +457,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       at(size_type __n) const
       {
 	if (__n >= size())
-	  __throw_out_of_range("basic_stacktrace::at: bad frame number");
+	  __throw_out_of_range(__eqt_excstr_throwing_std_stacktrace0);
 	return begin()[__n];
       }
 
@@ -742,8 +752,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	if (__finished())
 	  return __first;
 
-	__throw_format_error("format error: invalid format-spec for "
-			     "std::stacktrace_entry");
+	__throw_format_error(__eqt_excstr_throwing_std_stacktrace1);
       }
 
       template<typename _Out>
@@ -772,8 +781,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	const auto __first = __pc.begin();
 	if (__first == __pc.end() || *__first == '}')
 	  return __first;
-	__throw_format_error("format error: invalid format-spec for "
-			     "std::basic_stacktrace");
+	__throw_format_error(__eqt_excstr_throwing_std_stacktrace2);
       }
 
       template<typename _Out>

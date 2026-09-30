@@ -42,6 +42,20 @@
 #include <ext/sso_string_base.h>
 #include <bits/stl_algobase.h> // std::min
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_vstring_h0, __N("%s: __pos (which is %zu) > this->size() (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_vstring_h1, __N("__versa_string::at: __n (which is %zu) >= this->size() (which is %zu)"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_vstring_h2, "__versa_string::append");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_vstring_h3, "__versa_string::insert");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_vstring_h4, "__versa_string::erase");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_vstring_h5, "__versa_string::replace");
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_vstring_h6, "__versa_string::substr");
+
+} // namespace
+
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -89,8 +103,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _M_check(size_type __pos, const char* __s) const
       {
 	if (__pos > this->size())
-	  std::__throw_out_of_range_fmt(__N("%s: __pos (which is %zu) > "
-					    "this->size() (which is %zu)"),
+	  std::__throw_out_of_range_fmt(__eqt_excstr_throwing_ext_vstring_h0,
 					__s, __pos, this->size());
 	return __pos;
       }
@@ -581,9 +594,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       at(size_type __n) const
       {
 	if (__n >= this->size())
-	  std::__throw_out_of_range_fmt(__N("__versa_string::at: __n "
-					    "(which is %zu) >= this->size() "
-					    "(which is %zu)"),
+	  std::__throw_out_of_range_fmt(__eqt_excstr_throwing_ext_vstring_h1,
 					__n, this->size());
 	return this->_M_data()[__n];
       }
@@ -603,9 +614,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       at(size_type __n)
       {
 	if (__n >= this->size())
-	  std::__throw_out_of_range_fmt(__N("__versa_string::at: __n "
-					    "(which is %zu) >= this->size() "
-					    "(which is %zu)"),
+	  std::__throw_out_of_range_fmt(__eqt_excstr_throwing_ext_vstring_h1,
 					__n, this->size());
 	this->_M_leak();
 	return this->_M_data()[__n];
@@ -725,7 +734,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       append(const _CharT* __s, size_type __n)
       {
 	__glibcxx_requires_string_len(__s, __n);
-	_M_check_length(size_type(0), __n, "__versa_string::append");
+	_M_check_length(size_type(0), __n, __eqt_excstr_throwing_ext_vstring_h2);
 	return _M_append(__s, __n);
       }
 
@@ -739,7 +748,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	__glibcxx_requires_string(__s);
 	const size_type __n = traits_type::length(__s);
-	_M_check_length(size_type(0), __n, "__versa_string::append");
+	_M_check_length(size_type(0), __n, __eqt_excstr_throwing_ext_vstring_h2);
 	return _M_append(__s, __n);
       }
 
@@ -1128,7 +1137,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       __versa_string&
       insert(size_type __pos, size_type __n, _CharT __c)
-      { return _M_replace_aux(_M_check(__pos, "__versa_string::insert"),
+      { return _M_replace_aux(_M_check(__pos, __eqt_excstr_throwing_ext_vstring_h3),
 			      size_type(0), __n, __c); }
 
       /**
@@ -1176,7 +1185,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       __versa_string&
       erase(size_type __pos = 0, size_type __n = npos)
       { 
-	this->_M_erase(_M_check(__pos, "__versa_string::erase"),
+	this->_M_erase(_M_check(__pos, __eqt_excstr_throwing_ext_vstring_h4),
 		       _M_limit(__pos, __n));
 	return *this;
       }
@@ -1313,7 +1322,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      size_type __n2)
       {
 	__glibcxx_requires_string_len(__s, __n2);
-	return _M_replace(_M_check(__pos, "__versa_string::replace"),
+	return _M_replace(_M_check(__pos, __eqt_excstr_throwing_ext_vstring_h5),
 			  _M_limit(__pos, __n1), __s, __n2);
       }
 
@@ -1358,7 +1367,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       __versa_string&
       replace(size_type __pos, size_type __n1, size_type __n2, _CharT __c)
-      { return _M_replace_aux(_M_check(__pos, "__versa_string::replace"),
+      { return _M_replace_aux(_M_check(__pos, __eqt_excstr_throwing_ext_vstring_h5),
 			      _M_limit(__pos, __n1), __n2, __c); }
 
       /**
@@ -2055,7 +2064,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       __versa_string
       substr(size_type __pos = 0, size_type __n = npos) const
       {
-	return __versa_string(*this, _M_check(__pos, "__versa_string::substr"),
+	return __versa_string(*this, _M_check(__pos, __eqt_excstr_throwing_ext_vstring_h6),
 			      __n);
       }
 

@@ -58,6 +58,16 @@
 
 #include <bits/stl_algobase.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_deque_tcc0, __N("cannot create std::deque larger than max_size()"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_deque_tcc1, __N("deque::_M_new_elements_at_front"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_bits_deque_tcc2, __N("deque::_M_new_elements_at_back"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -491,7 +501,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       {
 	if (size() == max_size())
 	  __throw_length_error(
-	      __N("cannot create std::deque larger than max_size()"));
+	      __eqt_excstr_throwing_bits_deque_tcc0);
 
 	_M_reserve_map_at_back();
 	*(this->_M_impl._M_finish._M_node + 1) = this->_M_allocate_node();
@@ -530,7 +540,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       {
 	if (size() == max_size())
 	  __throw_length_error(
-	      __N("cannot create std::deque larger than max_size()"));
+	      __eqt_excstr_throwing_bits_deque_tcc0);
 
 	_M_reserve_map_at_front();
 	*(this->_M_impl._M_start._M_node - 1) = this->_M_allocate_node();
@@ -885,7 +895,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     _M_new_elements_at_front(size_type __new_elems)
     {
       if (this->max_size() - this->size() < __new_elems)
-	__throw_length_error(__N("deque::_M_new_elements_at_front"));
+	__throw_length_error(__eqt_excstr_throwing_bits_deque_tcc1);
 
       const size_type __new_nodes = ((__new_elems + _S_buffer_size() - 1)
 				     / _S_buffer_size());
@@ -910,7 +920,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     _M_new_elements_at_back(size_type __new_elems)
     {
       if (this->max_size() - this->size() < __new_elems)
-	__throw_length_error(__N("deque::_M_new_elements_at_back"));
+	__throw_length_error(__eqt_excstr_throwing_bits_deque_tcc2);
 
       const size_type __new_nodes = ((__new_elems + _S_buffer_size() - 1)
 				     / _S_buffer_size());

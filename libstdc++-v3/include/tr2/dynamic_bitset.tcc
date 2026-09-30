@@ -32,6 +32,16 @@
 
 #pragma GCC system_header
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr2_dynamic_bitset_tcc0, __N("__dynamic_bitset_base::_M_do_to_ulong"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr2_dynamic_bitset_tcc1, __N("__dynamic_bitset_base::_M_do_to_ullong"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_tr2_dynamic_bitset_tcc2, __N("dynamic_bitset::_M_copy_from_ptr"));
+
+} // namespace
+
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -98,7 +108,7 @@ namespace tr2
       size_t __n = sizeof(unsigned long) / sizeof(block_type);
       for (size_t __i = __n; __i < this->_M_w.size(); ++__i)
 	if (this->_M_w[__i])
-	  __throw_overflow_error(__N("__dynamic_bitset_base::_M_do_to_ulong"));
+	  __throw_overflow_error(__eqt_excstr_throwing_tr2_dynamic_bitset_tcc0);
       unsigned long __res = 0UL;
       for (size_t __i = 0; __i < __n && __i < this->_M_w.size(); ++__i)
 	__res += this->_M_w[__i] << (__i * _S_bits_per_block);
@@ -112,7 +122,7 @@ namespace tr2
       size_t __n = sizeof(unsigned long long) / sizeof(block_type);
       for (size_t __i = __n; __i < this->_M_w.size(); ++__i)
 	if (this->_M_w[__i])
-	  __throw_overflow_error(__N("__dynamic_bitset_base::_M_do_to_ullong"));
+	  __throw_overflow_error(__eqt_excstr_throwing_tr2_dynamic_bitset_tcc1);
       unsigned long long __res = 0ULL;
       for (size_t __i = 0; __i < __n && __i < this->_M_w.size(); ++__i)
 	__res += this->_M_w[__i] << (__i * _S_bits_per_block);
@@ -188,7 +198,7 @@ namespace tr2
 	    else if (_Traits::eq(__c, __one))
 	      _M_unchecked_set(__i - 1);
 	    else
-	      __throw_invalid_argument(__N("dynamic_bitset::_M_copy_from_ptr"));
+	      __throw_invalid_argument(__eqt_excstr_throwing_tr2_dynamic_bitset_tcc2);
 	  }
       }
 

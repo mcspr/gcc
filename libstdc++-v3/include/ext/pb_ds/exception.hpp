@@ -45,6 +45,14 @@
 #include <stdexcept>
 #include <cstdlib>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_pb_ds_exception_hpp0, __N("__gnu_pbds::container_error"));
+
+} // namespace
+
 namespace __gnu_pbds
 {
   /**
@@ -57,7 +65,7 @@ namespace __gnu_pbds
   struct container_error : public std::logic_error
   {
     container_error()
-    : std::logic_error(__N("__gnu_pbds::container_error")) { }
+    : std::logic_error(__eqt_excstr_throwing_ext_pb_ds_exception_hpp0) { }
   };
 
   /// An entry cannot be inserted into a container object for logical

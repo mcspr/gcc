@@ -41,6 +41,15 @@
 #include <locale>
 #include <iconv.h>
 
+#include <__eqt/excstring.hpp>
+
+namespace {
+
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_codecvt_specializations_h0, __N("encoding_state::_M_init creating iconv input descriptor failed"));
+__EQT_EXCSTR_DECL(__eqt_excstr_throwing_ext_codecvt_specializations_h1, __N("encoding_state::_M_init creating iconv output descriptor failed"));
+
+} // namespace
+
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -164,15 +173,13 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 	{
 	  _M_in_desc = iconv_open(_M_int_enc.c_str(), _M_ext_enc.c_str());
 	  if (_M_in_desc == __err)
-	    std::__throw_runtime_error(__N("encoding_state::_M_init "
-				    "creating iconv input descriptor failed"));
+	    std::__throw_runtime_error(__eqt_excstr_throwing_ext_codecvt_specializations_h0);
 	}
       if (!_M_out_desc && __have_encodings)
 	{
 	  _M_out_desc = iconv_open(_M_ext_enc.c_str(), _M_int_enc.c_str());
 	  if (_M_out_desc == __err)
-	    std::__throw_runtime_error(__N("encoding_state::_M_init "
-				  "creating iconv output descriptor failed"));
+	    std::__throw_runtime_error(__eqt_excstr_throwing_ext_codecvt_specializations_h1);
 	}
     }
 
